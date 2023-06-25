@@ -59,7 +59,7 @@ class HelpersController extends Controller
             ->get();
 
         foreach ($watched_players as $key => $watched_player) {
-            $watched_player[$key]->stamp = Carbon::parse($watched_player->PlayerJoined, 'UTC')->toIso8601String();
+            $watched_players[$key]->stamp = Carbon::parse($watched_player->PlayerJoined, 'UTC')->toIso8601String();
         }
 
         return MainHelper::response($watched_players, null, null, null, false, true);

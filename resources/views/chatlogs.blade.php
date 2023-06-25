@@ -117,7 +117,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <span popover="{{ $message->logMessage }}" popover-trigger="mouseenter">{{ str_limit($message->logMessage, 50) }}</span>
+                                                <span tooltip="{{ $message->logMessage }}">{{ $message->logMessage }}</span>
                                             </td>
                                             <td ng-bind="moment('{{ $message->stamp }}').format('LLL')"></td>
                                         @else
@@ -134,7 +134,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <span popover="{{ $message->logMessage }}" popover-trigger="mouseenter">{{ str_limit($message->logMessage, 90) }}</span>
+                                                <span tooltip="{{ $message->logMessage }}">{{ $message->logMessage }}</span>
                                             </td>
                                             <td ng-bind="moment('{{ $message->stamp }}').format('LLL')"></td>
                                         @endif

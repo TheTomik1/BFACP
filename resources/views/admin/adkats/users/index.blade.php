@@ -60,7 +60,7 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <span popover-placement="left" popover="{{ $user->user_notes }}" popover-trigger="mouseenter">{{ str_limit($user->user_notes, 60) }}</span>
+                                        <span tooltip="{{ $user->user_notes }}">{{ str_limit($user->user_notes, 60) }}</span>
                                     </td>
                                 </tr>
                             @empty

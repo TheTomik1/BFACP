@@ -1,0 +1,20 @@
+<div class="table-responsive">
+  <table class="table no-margin">
+    <thead>
+    <th>Player</th>
+    <th>Reason</th>
+    <th>Admin</th>
+    <th>Online</th>
+    <th>Server</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="(key, player) in results.online_watchlist_players track by player.SoldierName">
+      <td ng-bind="player.SoldierName"></td>
+      <td ng-bind="player.record_message"></td>
+      <td ng-bind="player.source_name"></td>
+      <td ng-bind="moment(player.stamp).calendar()"></td>
+      <td ng-bind="player.ServerName | limitTo: 30"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

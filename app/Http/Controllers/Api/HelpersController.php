@@ -48,6 +48,23 @@ class HelpersController extends Controller
         return MainHelper::response($admins, null, null, null, false, true);
     }
 
+    public function onlineWatchlistPlayers()
+    {
+        $watched_players = DB::table('tbl_currentplayers')
+            ->select('tbl_playerdata.SoldierName', 'record_message', 'source_name', 'ServerName', 'PlayerJoined')
+            ->join('tbl_server','tbl_currentplayers.ServerID','=','tbl_server.ServerID')
+            ->join('tbl_playerdata','tbl_currentplayers.Soldiername','=','tbl_playerdata.SoldierName')
+            ->join('adkats_records_main','tbl_playerdata.PlayerID','=','adkats_records_main.target_id')
+            ->where('adkats_records_main.command_type','=',151)
+            ->get();
+
+        foreach ($watched_players as $key => $watched_player) {
+            $watched_player[$key]->stamp = Carbon::parse($watched_player->PlayerJoined, 'UTC')->toIso8601String();
+        }
+
+        return MainHelper::response($watched_players, null, null, null, false, true);
+    }
+
     /**
      * @param $addy
      *

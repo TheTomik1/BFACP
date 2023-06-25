@@ -16,6 +16,7 @@ if (PHP_SAPI !== 'cli') {
                 Route::get('special_groups', 'HelpersController@getSpecialGroups');
             });
             Route::get('online/admins', 'HelpersController@onlineAdmins');
+            Route::get('online/watchlist', 'HelpersController@onlineWatchlistPlayers');
             Route::get('ip/{addy}', 'HelpersController@iplookup');
             Route::get('squads', 'HelpersController@getSquads');
         });

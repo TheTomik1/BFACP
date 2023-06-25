@@ -230,6 +230,18 @@
                 </div>
             </div>
 
+            <div class="col-xs-12 col-lg-6">
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            {{ trans('dashboard.online_watchlist') }}
+                        </h3>
+                    </div>
+
+                    <div class="box-body" ng-include="'js/templates/onlinewatchlist.html'" onload="onlineWatchlist()"></div>
+                </div>
+            </div>
+
             @if($bfacp->isLoggedIn && Auth::user()->ability(null, 'admin.adkats.reports.view'))
             <div class="col-xs-12 col-lg-6">
                 <div class="box box-solid">

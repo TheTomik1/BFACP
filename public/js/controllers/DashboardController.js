@@ -201,11 +201,26 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
         });
     };
 
+    $scope.onlineWatchlist = function() {
+        $http.get('api/helpers/online/watchlist').success(function(data) {
+            if(data.data.length > 0) {
+                $scope.results.online_watchlist_players = data.data;
+            } else {
+                $scope.results.online_watchlist_players = [];
+            }
+        }).error(function() {
+            $scope.onlineWatchlist();
+        });
+    };
+
     // Re-fetch the population every 30 seconds.
     $interval($scope.population, 30 * 1000);
 
     // Re-fetch the online admins every minute.
     $interval($scope.onlineAdmins, 60 * 1000);
+
+    // Re-fetch the online watchlist players every minute.
+    $interval($scope.onlineWatchlist, 60 * 1000);
 
     $scope.banStats();
 }]);

@@ -22,12 +22,13 @@ return [
     ],
     'motd'                          => 'Message of the Day',
     'online_admin'                  => 'Online Admins',
+    'online_watchlist'                  => 'Online Watchlist players',
     'population'                    => [
-        'title'   => 'Population',
+        'title'   => 'Servers',
         'footer'  => 'Total',
         'columns' => [
             'col1' => 'Server',
-            'col2' => 'Online',
+            'col2' => 'Players',
             'col3' => 'Map',
         ],
     ],

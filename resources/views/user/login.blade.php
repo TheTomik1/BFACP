@@ -25,7 +25,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ route('home') }}"><strong>BFAdmin</strong>CP</a>
+        <a href="{{ route('home') }}"><strong>BF4C</strong> Admin Panel</a>
     </div>
 
     @foreach(Session::get('messages', []) as $message)

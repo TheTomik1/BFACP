@@ -159,7 +159,7 @@ return [
          */
         'acs'         => [
             'title'    => 'Suspicious Weapons',
-            'help'     => 'Weapons shown are not always suspicious and is only there to help you decided if the player is cheating. Shotguns and Snipers may trigger more frequently.',
+            'help'     => 'Weapons shown are not always suspicious and is only there to help you decide if the player is cheating. Shotguns and Snipers may trigger more frequently.',
             'none'     => 'No Suspicious Weapons Found',
             'checking' => 'Checking player&hellip;',
             'table'    => [

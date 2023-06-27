@@ -292,7 +292,7 @@
                                                            ng-model="admin.forgive.message"
                                                            ng-disabled="admin.forgive.processing">
                                                     <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-info btn-flat" style="width: 100px"
+                                                        <button type="button" class="btn btn-success btn-flat" style="width: 100px"
                                                                 ng-click="issueForgive()"
                                                                 ng-disabled="admin.forgive.processing">
                                                             <i class="fa fa-refresh fa-spin fa-fw"

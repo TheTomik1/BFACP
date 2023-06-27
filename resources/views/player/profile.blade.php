@@ -288,16 +288,36 @@
                                                        ng-disabled="admin.forgive.processing">
 
                                                 <div class="input-group input-group-sm">
-                                                    <input type="text" class="form-control" placeholder="ForgivePlayer"
+                                                    <input type="text" class="form-control" style="border-radius: 0" placeholder="Reason to forgive the player."
                                                            ng-model="admin.forgive.message"
                                                            ng-disabled="admin.forgive.processing">
                                                     <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-info btn-flat"
+                                                        <button type="button" class="btn btn-info btn-flat" style="width: 100px"
                                                                 ng-click="issueForgive()"
                                                                 ng-disabled="admin.forgive.processing">
                                                             <i class="fa fa-refresh fa-spin fa-fw"
                                                                ng-show="admin.forgive.processing"></i>
                                                             Issue Forgive
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                                <input type="number" style="width: 60px; margin-top: 10px"
+                                                       class="form-control input-sm pull-left" min="1"
+                                                       ng-model="admin.punish.points"
+                                                       ng-disabled="admin.forgive.processing">
+
+                                                <div class="input-group input-group-sm" style="margin-top: 10px">
+                                                    <input type="text" class="form-control" style="border-radius: 0" placeholder="Reason to punish the player."
+                                                           ng-model="admin.punish.message"
+                                                           ng-disabled="admin.forgive.processing">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-danger btn-flat" style="width: 100px"
+                                                                ng-click="issuePunish()"
+                                                                ng-disabled="admin.forgive.processing">
+                                                            <i class="fa fa-refresh fa-spin fa-fw"
+                                                                ng-show="admin.forgive.processing"></i>
+                                                            Issue Punish
                                                         </button>
                                                     </span>
                                                 </div>

@@ -179,6 +179,11 @@ Route::group(['middleware' => 'web'], function () {
             'uses' => 'PlayersController@issueForgive',
             'middleware' => 'auth',
         ])->where('id', '[0-9]+');
+        Route::post('{player}/punish', [
+            'as'         => 'player.update',
+            'uses' => 'PlayersController@issuePunish',
+            'middleware' => 'auth',
+        ])->where('id', '[0-9]+');
         Route::get('{id}/{name?}', [
             'as'   => 'player.show',
             'uses' => 'PlayersController@profile',

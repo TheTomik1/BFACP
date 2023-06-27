@@ -229,6 +229,12 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at'   => $now,
             ],
             [
+                'name'         => 'player.infractions.punish',
+                'display_name' => 'Issue Punish Points',
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ],
+            [
                 'name'         => 'player.view.guids',
                 'display_name' => 'View Player GUIDS',
                 'created_at'   => $now,

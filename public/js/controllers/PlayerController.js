@@ -167,7 +167,13 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
         $scope.admin = {
             forgive: {
                 points: 1,
-                message: 'ForgivePlayer',
+                message: '',
+                processing: false,
+                server: null
+            },
+            punish: {
+                points: 1,
+                message: '',
                 processing: false,
                 server: null
             }
@@ -197,6 +203,33 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 console.error(data);
             }).finally(function () {
                 $scope.admin.forgive.processing = false;
+            });
+        };
+
+        $scope.issuePunish = function () {
+            if ($scope.admin.forgive.server === null) {
+                toastr.error('No server selected.');
+                return false;
+            }
+
+            $scope.admin.punish.processing = true;
+            $http.post('players/' + $scope.playerId + '/punish', {
+                server_id: $scope.admin.forgive.server,
+                punish_points: $scope.admin.punish.points,
+                message: $scope.admin.punish.message
+            }).success(function (data) {
+                if (data.status == 'error') {
+                    toastr.error(data.message);
+                } else if (data.status == 'warning') {
+                    toastr.warning(data.message);
+                } else {
+                    toastr.success(data.message);
+                }
+            }).error(function (data) {
+                toastr.error(data.message, 'error');
+                console.error(data);
+            }).finally(function () {
+                $scope.admin.punish.processing = false;
             });
         };
 

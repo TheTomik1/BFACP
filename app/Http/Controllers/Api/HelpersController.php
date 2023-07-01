@@ -52,10 +52,15 @@ class HelpersController extends Controller
     {
         $watched_players = DB::table('tbl_currentplayers')
             ->select('tbl_playerdata.SoldierName', 'record_message', 'source_name', 'ServerName', 'PlayerJoined')
-            ->join('tbl_server','tbl_currentplayers.ServerID','=','tbl_server.ServerID')
-            ->join('tbl_playerdata','tbl_currentplayers.Soldiername','=','tbl_playerdata.SoldierName')
-            ->join('adkats_records_main','tbl_playerdata.PlayerID','=','adkats_records_main.target_id')
-            ->where('adkats_records_main.command_type','=',151)
+            ->join('tbl_server', 'tbl_currentplayers.ServerID', '=', 'tbl_server.ServerID')
+            ->join('tbl_playerdata', 'tbl_currentplayers.Soldiername', '=', 'tbl_playerdata.SoldierName')
+            ->join('adkats_records_main', 'tbl_playerdata.PlayerID', '=', 'adkats_records_main.target_id')
+            ->where('adkats_records_main.command_type', '=', 151)
+            ->whereNotIn('tbl_playerdata.SoldierName', function ($query) {
+                $query->from('adkats_records_main')
+                    ->select('target_name')
+                    ->where('command_type', '=', 152);
+            })
             ->get();
 
         foreach ($watched_players as $key => $watched_player) {

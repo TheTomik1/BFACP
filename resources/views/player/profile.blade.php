@@ -245,27 +245,27 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach($player->infractions_server as $infraction)
+                                    @foreach($servers as $server)
                                         <tr>
                                             <td>
                                                 @if($bfacp->isLoggedIn && $bfacp->user->ability(null, 'player.infractions.forgive'))
                                                     <input type="radio" ng-model="admin.forgive.server"
-                                                           value="{{ $infraction->server->ServerID }}"
+                                                           value="{{ $server->ServerID }}"
                                                            ng-disabled="admin.forgive.processing">&nbsp;
                                                 @endif
-                                                @if($infraction->server->is_active)
-                                                    <a href="servers/live#id-{{ $infraction->server->ServerID }}" target="_blank" tooltip="{{ $infraction->server->ServerName }}">
-                                                        {{ $infraction->server->server_name_short or str_limit($infraction->server->ServerName, 30) }}
+                                                @if($server->is_active)
+                                                    <a href="servers/live#id-{{ $server->ServerID }}" target="_blank" tooltip="{{ $server->ServerName }}">
+                                                        {{ $server->server_name_short or str_limit($server->ServerName, 30) }}
                                                     </a>
                                                 @else
-                                                    <span tooltip="{{ $infraction->server->ServerName }}">{{ $infraction->server->server_name_short or str_limit($infraction->server->ServerName, 30) }}</span>
+                                                    <span tooltip="{{ $server->ServerName }}">{{ $server->server_name_short or str_limit($server->ServerName, 30) }}</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $infraction->punish_points }}</td>
-                                            <td>{{ $infraction->forgive_points }}</td>
-                                            <td>{{ $infraction->total_points }}</td>
+                                            <td>{{ $player->infractions_server[$server->ServerID-1]->punish_points }}</td>
+                                            <td>{{ $player->infractions_server[$server->ServerID-1]->forgive_points }}</td>
+                                            <td>{{ $player->infractions_server[$server->ServerID-1]->total_points }}</td>
                                             <td class="hidden-md hidden-sm hidden-xs">
-                                                {{ MainHelper::getNextPunishment(null, $player->infractions_global->total_points, $infraction->server->ServerID) }}
+                                                {{ MainHelper::getNextPunishment(null, $player->infractions_global->total_points, $player->infractions_server[$server->ServerID-1]->server->ServerID) }}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -215,7 +215,7 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 toastr.error('No server selected.');
                 return false;
             }
-            if ($scope.admin.forgive.message === "") {
+            if ($scope.admin.punish.message === "") {
                 toastr.error('No punish message provided.');
                 return false;
             }

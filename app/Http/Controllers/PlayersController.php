@@ -258,15 +258,13 @@ class PlayersController extends Controller
             $adminId = $soldier->player_id;
         }
 
+        $punish_points = 0;
+        $forgive_points = 0;
         if (isset($player->infractionsServer[0])) {
             $punish_points = $player->infractionsServer[0]->punish_points;
-        } else {
-            $punish_points = 0;
         }
         if (isset($player->infractionsServer[0])) {
             $forgive_points = $player->infractionsServer[0]->forgive_points;
-        } else {
-            $forgive_points = 0;
         }
 
         if ($points > $forgive_points && $forgive_points != $punish_points) {

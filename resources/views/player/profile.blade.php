@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('content')
-
     <section ng-controller="PlayerController">
         <div class="row">
 
@@ -352,7 +351,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <span ng-bind="moment('{{ $infraction->stamp }}').fromNow()" tooltip="{{ Macros::moment($infraction->stamp) }}">
+                                                <span ng-bind="moment('{{ $infraction->stamp }}').fromNow()" tooltip="{{ Macros::moment($infraction->stamp) }}"></span>
                                             </td>
                                             <td>{{ $infraction->record_message }}</td>
                                         </tr>
@@ -362,6 +361,45 @@
                             @else
                                 <div class="alert alert-success">
                                     <i class="fa fa-check"></i> {{ trans('player.profile.infractions.none') }}
+                                </div>
+
+                                <div>
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <th>{{ trans('player.profile.infractions.table.col1') }}</th>
+                                        </thead>
+
+                                        @foreach($servers as $server)
+                                            <tr>
+                                                <td>
+                                                    @if($bfacp->isLoggedIn && $bfacp->user->ability(null, 'player.infractions.punish'))
+                                                        <input type="radio" ng-model="admin.forgive.server"
+                                                               value="{{ $server->ServerID }}"
+                                                               ng-disabled="admin.forgive.processing">
+                                                    @endif
+                                                    @if($server->is_active)
+                                                        <a href="servers/live#id-{{ $server->ServerID }}" target="_blank" tooltip="{{ $server->ServerName }}">{{ $server->server_name_short or str_limit($server->ServerName, 30) }}</a>
+                                                    @else
+                                                        <span tooltip="{{ $server->ServerName }}">{{ $server->server_name_short or str_limit($server->ServerName, 30) }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+
+                                    <input type="number" style="width: 60px;"
+                                           class="form-control input-sm pull-left" min="1"
+                                           ng-model="admin.punish.points"
+                                           ng-disabled="admin.forgive.processing">
+
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" style="border-radius: 0" placeholder="Reason to punish the player." ng-model="admin.punish.message" ng-disabled="admin.forgive.processing">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-danger btn-flat" style="" ng-click="issuePunish()" ng-disabled="admin.forgive.processing">
+                                                <i class="fa fa-refresh fa-spin fa-fw" ng-show="admin.forgive.processing"></i>Issue Punish
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             @endif
                         </div>

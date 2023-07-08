@@ -4,6 +4,7 @@ namespace BFACP\Http\Controllers;
 
 use BFACP\Adkats\Record;
 use BFACP\Battlefield\Player;
+use BFACP\Battlefield\Server\Server;
 use BFACP\Facades\Main as MainHelper;
 use BFACP\Repositories\PlayerRepository;
 use Carbon\Carbon;
@@ -108,7 +109,9 @@ class PlayersController extends Controller
         $page_title = ! empty($player->ClanTag) ? sprintf('[%s] %s', $player->ClanTag,
             $player->SoldierName) : $player->SoldierName;
 
-        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'groups'));
+        $servers = Server::active()->with('stats')->get();
+
+        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'groups', 'servers'));
     }
 
     /**
@@ -208,7 +211,7 @@ class PlayersController extends Controller
         // Clear any cached version.
         $player->forget();
 
-        return MainHelper::response(null, 'Forgives Issued.');
+        return MainHelper::response(null, 'Forgive Issued.');
     }
 
     public function issuePunish(Player $player)
@@ -235,9 +238,6 @@ class PlayersController extends Controller
             },
         ])->first();
 
-        if (empty($player->infractionsServer) || count($player->infractionsServer) == 0) {
-            return MainHelper::response(null, sprintf('No infractions found for server #%u', $server_id), 'error', 404);
-        }
 
         // Set the issuing admin name for the record.
         $adminName = $this->user->username;
@@ -258,8 +258,16 @@ class PlayersController extends Controller
             $adminId = $soldier->player_id;
         }
 
-        $punish_points = $player->infractionsServer[0]->punish_points;
-        $forgive_points = $player->infractionsServer[0]->forgive_points;
+        if (isset($player->infractionsServer[0])) {
+            $punish_points = $player->infractionsServer[0]->punish_points;
+        } else {
+            $punish_points = 0;
+        }
+        if (isset($player->infractionsServer[0])) {
+            $forgive_points = $player->infractionsServer[0]->forgive_points;
+        } else {
+            $forgive_points = 0;
+        }
 
         if ($points > $forgive_points && $forgive_points != $punish_points) {
             // Save the user punish count into another variable.

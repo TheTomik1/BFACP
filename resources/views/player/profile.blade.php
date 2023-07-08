@@ -261,11 +261,11 @@
                                                     <span tooltip="{{ $server->ServerName }}">{{ $server->server_name_short or str_limit($server->ServerName, 30) }}</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $player->infractions_server[$server->ServerID-1]->punish_points }}</td>
-                                            <td>{{ $player->infractions_server[$server->ServerID-1]->forgive_points }}</td>
-                                            <td>{{ $player->infractions_server[$server->ServerID-1]->total_points }}</td>
+                                            <td>{{ $player->infractions_server[0]->punish_points }}</td>
+                                            <td>{{ $player->infractions_server[0]->forgive_points }}</td>
+                                            <td>{{ $player->infractions_server[0]->total_points }}</td>
                                             <td class="hidden-md hidden-sm hidden-xs">
-                                                {{ MainHelper::getNextPunishment(null, $player->infractions_global->total_points, $player->infractions_server[$server->ServerID-1]->server->ServerID) }}
+                                                {{ MainHelper::getNextPunishment(null, $player->infractions_global->total_points, $player->infractions_server[0]->server->ServerID) }}
                                             </td>
                                         </tr>
                                     @endforeach

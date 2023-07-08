@@ -184,6 +184,10 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 toastr.error('No server selected.');
                 return false;
             }
+            if ($scope.admin.forgive.message === "") {
+                toastr.error('No forgive message provided.');
+                return false;
+            }
 
             $scope.admin.forgive.processing = true;
             $http.post('players/' + $scope.playerId + '/forgive', {
@@ -209,6 +213,10 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
         $scope.issuePunish = function () {
             if ($scope.admin.forgive.server === null) {
                 toastr.error('No server selected.');
+                return false;
+            }
+            if ($scope.admin.forgive.message === "") {
+                toastr.error('No punish message provided.');
                 return false;
             }
 

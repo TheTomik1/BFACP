@@ -5,21 +5,21 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">&nbsp;</h3>
-                    <div class="box-tools">
-                        <div class="pull-right">
-                            {!! Former::text('player')->placeholder(trans('common.nav.extras.psearch.placeholder')) !!}
+                    <div class="pull-right">
+                        <div class="input-group" style="width: 300px; padding-bottom: 10px">
+                            {!! Former::text('player')->id('player')->placeholder(trans('common.nav.extras.psearch.placeholder')) !!}
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" id="searchButton">Search</button>
+                            </span>
                         </div>
-                        <div class="pull-left" style="padding-right: 20px">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="personal" id="personal" value="1" @if(request()->has('personal')) checked @endif>
-                                    {{ trans('adkats.bans.listing.personal') }}
-                                </label>
-                            </div>
-                        </div>
+
+                        <label>
+                            <input type="checkbox" name="personal" id="personal" value="1" @if(request()->has('personal')) checked @endif>
+                            {{ trans('adkats.bans.listing.personal') }}
+                        </label>
                     </div>
                 </div>
+                <hr />
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-condensed">
@@ -121,7 +121,7 @@
             }
         });
 
-        $('#player').bind('blur keyup', function (e) {
+        $('input[type="text"][id="player"]').on('blur keyup', function (e) {
             if (e.type == 'blur' || e.keyCode == '13') {
                 var val = $(this).val();
 

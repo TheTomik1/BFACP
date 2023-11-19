@@ -135,7 +135,6 @@ class PlayersController extends Controller
         $points = $this->request->get('forgive_points', 1);
         $server_id = $this->request->get('server_id');
         $message = $this->request->get('message', 'ForgivePlayer');
-        $response_message = '';
 
         // Load up the infractions for the player on the selected server.
         $player->load([
@@ -175,23 +174,6 @@ class PlayersController extends Controller
                 trans('player.admin.forgive.errors.err1', ['player' => $player->SoldierName]), 'error');
         }
 
-        if ($points > $punish_points && $forgive_points != $punish_points) {
-            // Save the user forgive count into another variable.
-            $points_old = $points;
-
-            // Override points with players current punish points.
-            $points = $punish_points;
-
-            $response_message = trans('player.admin.forgive.warnings.overage', [
-                'player'    => $player->SoldierName,
-                'usertotal' => $points_old,
-                'reduced'   => $points,
-                'remaining' => ($points_old - $points),
-            ]);
-
-            MainHelper::response($player, $response_message);
-        }
-
         for ($i = 0; $i < $points; $i++) {
             $record = new Record;
             $record->server_id = $server_id;
@@ -229,7 +211,6 @@ class PlayersController extends Controller
         $points = $this->request->get('punish_points', 1);
         $server_id = $this->request->get('server_id');
         $message = $this->request->get('message', 'PunishPlayer');
-        $response_message = '';
 
         // Load up the infractions for the player on the selected server.
         $player->load([
@@ -237,7 +218,6 @@ class PlayersController extends Controller
                 $query->where('server_id', $server_id);
             },
         ])->first();
-
 
         // Set the issuing admin name for the record.
         $adminName = $this->user->username;
@@ -256,32 +236,6 @@ class PlayersController extends Controller
         if (! is_null($soldier)) {
             $adminName = $soldier->player->SoldierName;
             $adminId = $soldier->player_id;
-        }
-
-        $punish_points = 0;
-        $forgive_points = 0;
-        if (isset($player->infractionsServer[0])) {
-            $punish_points = $player->infractionsServer[0]->punish_points;
-        }
-        if (isset($player->infractionsServer[0])) {
-            $forgive_points = $player->infractionsServer[0]->forgive_points;
-        }
-
-        if ($points > $forgive_points && $forgive_points != $punish_points) {
-            // Save the user punish count into another variable.
-            $points_old = $points;
-
-            // Override points with players current punish points.
-            $points = $punish_points;
-
-            $response_message = trans('player.admin.punish.warnings.overage', [
-                'player'    => $player->SoldierName,
-                'usertotal' => $points_old,
-                'reduced'   => $points,
-                'remaining' => ($points_old - $points),
-            ]);
-
-            MainHelper::response($player, $response_message);
         }
 
         for ($i = 0; $i < $points; $i++) {

@@ -1,0 +1,14 @@
+<div class="table-responsive">
+    <table class="table no-margin">
+        <thead>
+        <th>Server</th>
+        <th>Battlereport</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(key, battlereport) in results.latest_battlereports track by battlereport.ServerName">
+            <td ng-bind="battlereport.ServerName"></td>
+            <td ng-bind="battlereport.battlereport_url"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -280,6 +280,18 @@
                 </div>
             </div>
             @endif
+
+            <div class="col-xs-12 col-lg-6">
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            {{ trans('dashboard.latest_battlereports') }}
+                        </h3>
+                    </div>
+
+                    <div class="box-body" ng-include="'js/templates/latestbattlereports.html'" onload="latestBattlereports()"></div>
+                </div>
+            </div>
         </div>
 
         <div class="row">

@@ -213,6 +213,18 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
         });
     };
 
+    $scope.latestBattlereports = function() {
+        $http.get('api/helpers/serverbattlereports').success(function(data) {
+            if(data.data.length > 0) {
+                $scope.results.latest_battlereports = data.data;
+            } else {
+                $scope.results.latest_battlereports = [];
+            }
+        }).error(function() {
+            $scope.latestBattlereports();
+        });
+    };
+
     // Re-fetch the population every 30 seconds.
     $interval($scope.population, 30 * 1000);
 
@@ -221,6 +233,9 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
 
     // Re-fetch the online watchlist players every minute.
     $interval($scope.onlineWatchlist, 60 * 1000);
+
+    // Re-fetch latest battlereports every minute.
+    $interval($scope.latestBattlereports, 60 * 1000);
 
     $scope.banStats();
 }]);

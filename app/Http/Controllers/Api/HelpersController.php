@@ -70,6 +70,20 @@ class HelpersController extends Controller
         return MainHelper::response($watched_players, null, null, null, false, true);
     }
 
+    public function getAllServersBattleReports()
+    {
+        $latest_battlereports = DB::table('battlereports')
+            ->join('bfacp_settings_servers', 'battlereports.guid', '=', 'bfacp_settings_servers.battlelog_guid')
+            ->join('BF4C1.tbl_server as ts', 'ts.ServerID', '=', 'bfacp_settings_servers.server_id')
+            ->orderBy('battlereports.datetime')
+            ->select('battlereports.ServerName', 'battlereports.battlereport_url')
+            ->limit(15)
+            ->get();
+
+
+        return MainHelper::response($latest_battlereports, null, null, null, false, true);
+    }
+
     /**
      * @param $addy
      *

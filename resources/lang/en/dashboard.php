@@ -23,6 +23,7 @@ return [
     'motd'                          => 'Message of the Day',
     'online_admin'                  => 'Online Admins',
     'online_watchlist'                  => 'Online Watchlist players',
+    'latest_battlereports'                 => 'Latest Battlereports',
     'population'                    => [
         'title'   => 'Servers',
         'footer'  => 'Total',

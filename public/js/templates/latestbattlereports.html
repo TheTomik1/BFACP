@@ -5,9 +5,11 @@
         <th>Battlereport</th>
         </thead>
         <tbody>
-        <tr ng-repeat="(key, battlereport) in results.latest_battlereports track by battlereport.ServerName">
-            <td ng-bind="battlereport.ServerName"></td>
-            <td ng-bind="battlereport.battlereport_url"></td>
+        <tr ng-repeat="(key, battlereport) in results.latest_battlereports track by (battlereport.ServerName + '-' + battlereport.battlereport_url)">
+            <td ng-bind="battlereport.ServerName | limitTo: 30"></td>
+            <td>
+                <a ng-href="{{battlereport.battlereport_url}}" target="_blank">{{battlereport.battlereport_url}}</a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -72,14 +72,17 @@ class HelpersController extends Controller
 
     public function getAllServersBattleReports()
     {
-        $latest_battlereports = DB::table('battlereports')
-            ->join('bfacp_settings_servers', 'battlereports.guid', '=', 'bfacp_settings_servers.battlelog_guid')
-            ->join('BF4C1.tbl_server as ts', 'ts.ServerID', '=', 'bfacp_settings_servers.server_id')
-            ->orderBy('battlereports.datetime')
-            ->select('battlereports.ServerName', 'battlereports.battlereport_url')
+        $latest_battlereports = DB::table("battlereports")
+            ->join("bfacp_settings_servers", function($join){
+                $join->on("battlereports.guid", "=", "bfacp_settings_servers.battlelog_guid");
+            })
+            ->join("bf4c1.tbl_server ts", function($join){
+                $join->on("ts.serverid", "=", "bfacp_settings_servers.server_id");
+            })
+            ->select("servername", "battlereport_url")
             ->limit(15)
+            ->orderBy("battlereports.datetime")
             ->get();
-
 
         return MainHelper::response($latest_battlereports, null, null, null, false, true);
     }

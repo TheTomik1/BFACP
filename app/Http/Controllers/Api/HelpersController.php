@@ -76,7 +76,7 @@ class HelpersController extends Controller
             ->select('tbl_server.ServerName', '.battlereports.battlereport_url')
             ->join('bfacp_settings_servers','battlereports.guid','=','bfacp_settings_servers.battlelog_guid')
             ->join('tbl_server','ServerID','=','bfacp_settings_servers.server_id')
-            ->orderBy('battlereports.datetime','asc')
+            ->orderBy('battlereports.datetime','desc')
             ->limit(15)
             ->get();
 

@@ -53,6 +53,12 @@ Menu::make('MainNav', function ($menu) use ($adminPermsList) {
             true));
     }
 
+    if ((Auth::check() && Auth::user()->ability(null, 'battlereports')) || Config::get('bfacp.site.battlereports.guest')) {
+        $menu->add(trans('navigation.main.items.battlereports.title'),
+            ['route' => 'battlereport.search'])->prepend(Macros::faicon(trans('navigation.main.items.battlereports.icon.fa'),
+            true));
+    }
+
     // Only show these if the user is logged in
     if (Auth::check()) {
 

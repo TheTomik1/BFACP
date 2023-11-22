@@ -36,6 +36,13 @@ Breadcrumbs::register('chatlog.search', function ($b) {
     ]);
 });
 
+Breadcrumbs::register('battlereport.search', function($b) {
+    $b->parent('home');
+    $b->push(trans('navigation.main.items.battlereports.title'), route('battlereport.search'), [
+        'icon' => Macros::faicon(trans('navigation.main.items.battlereports.icon.fa')),
+    ]);
+});
+
 Breadcrumbs::register('player.listing', function ($b) {
     $b->parent('home');
     $b->push(trans('navigation.main.items.playerlist.title'), route('player.listing'), [

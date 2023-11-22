@@ -173,6 +173,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('chatlogs', ['as' => 'chatlog.search', 'uses' => 'ChatlogController@index', 'middleware' => 'chatlogs']);
 
+    Route::get('battlereports', ['as' => 'battlereport.search', 'uses' => 'BattlereportController@index', 'middleware' => 'auth']);
+
     Route::group(['prefix' => 'players'], function () {
         Route::get('/', ['as' => 'player.listing', 'uses' => 'PlayersController@listing']);
         Route::post('{player}/forgive', [

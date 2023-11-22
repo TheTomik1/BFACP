@@ -49,6 +49,13 @@ return [
                     'ion' => null,
                 ],
             ],
+            'battlereports' => [
+                'title' => 'Battle Reports',
+                'icon'  => [
+                    'fa'  => 'fa-gamepad',
+                    'ion' => null,
+                ],
+            ],
         ],
     ],
     'admin' => [

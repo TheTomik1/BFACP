@@ -70494,6 +70494,25 @@ CREATE TABLE `bfacp_user_role` (
 INSERT INTO `bfacp_user_role` (`user_id`, `role_id`) VALUES
   (1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `battlereports`
+--
+CREATE TABLE battlereports
+(
+    id INT,
+    guid TEXT,
+    battlereport_url TEXT NOT NULL,
+    duration INT NOT NULL,
+    total_players INT NOT NULL,
+    round_end_players INT NOT NULL,
+    score_team_1 INT NOT NULL,
+    score_team_2 INT NOT NULL,
+    datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 --
 -- Indexes for dumped tables
 --
@@ -70576,6 +70595,14 @@ ALTER TABLE `bfacp_user_role`
   ADD KEY `bfacp_user_role_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `bfacp_calendar`
+--
+ALTER TABLE `battlereports`
+    ADD PRIMARY KEY (`id`);
+
+
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -70599,6 +70626,11 @@ ALTER TABLE `bfacp_roles`
 --
 ALTER TABLE `bfacp_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `bfacp_permissions`
+--
+ALTER TABLE `battlereports`
+    MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --

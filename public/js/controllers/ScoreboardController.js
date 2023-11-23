@@ -758,7 +758,14 @@ angular.module('bfacp').controller('ScoreboardController', ['$scope', '$rootScop
                             toastr.error('Team not selected.');
                         }
                         break;
+                    case "pban":
+                        if (!$scope.admin.doCheck(playerCount)) {
+                            $scope.admin.processing = false;
+                            break;
+                        }
 
+                        $scope.admin.permBanPlayer(players, message);
+                        break;
                     case "kick":
                     case "kickall":
                         if (action == 'kickall') {

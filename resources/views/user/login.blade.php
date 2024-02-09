@@ -25,7 +25,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ route('home') }}"><strong>Battlefield</strong> Admin Panel</a>
+        <a href="{{ route('home') }}"><strong>{{ MainHelper::getTitle(isset($page_title) ? $page_title : false, Config::get('bfacp.site.title'), true) }}</a>
     </div>
 
     @foreach(Session::get('messages', []) as $message)

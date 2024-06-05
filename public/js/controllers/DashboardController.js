@@ -45,7 +45,8 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
     };
 
     $scope.loaded = {
-        bans: false
+        bans: false,
+        battlereports: false
     };
 
     $scope.$watch('results.population.online', function(newValue, oldValue) {
@@ -214,12 +215,20 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
     };
 
     $scope.latestBattlereports = function() {
+        if ($scope.loaded.battlereports) {
+            $("#latest-ban-refresh-btn").addClass('fa-spin');
+            $scope.loaded.battlereports = false;
+        }
+
         $http.get('api/helpers/serverbattlereports').success(function(data) {
             if(data.data.length > 0) {
                 $scope.results.latest_battlereports = data.data;
             } else {
                 $scope.results.latest_battlereports = [];
             }
+
+            $scope.loaded.battlereports = true;
+            $("#latest-ban-refresh-btn").removeClass('fa-spin');
         }).error(function() {
             $scope.latestBattlereports();
         });

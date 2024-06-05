@@ -5,8 +5,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header">
-                    <p>All the ban records can be found in the table. Use the features on the right in case you are searching for a specific ban.</p>
-                    <div class="pull-right">
+                    <div class="pull-left">
                         <div class="input-group" style="width: 300px; padding-bottom: 10px">
                             {!! Former::text('player')->id('player')->placeholder(trans('common.nav.extras.psearch.placeholder')) !!}
                             <span class="input-group-btn">

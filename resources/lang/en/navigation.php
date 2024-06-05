@@ -52,7 +52,7 @@ return [
             'battlereports' => [
                 'title' => 'Battle Reports',
                 'icon'  => [
-                    'fa'  => 'fa-gamepad',
+                    'fa'  => 'fa-file',
                     'ion' => null,
                 ],
             ],

@@ -280,22 +280,10 @@
                 </div>
             </div>
             @endif
-
-            <div class="col-xs-12 col-lg-6">
-                <div class="box box-solid">
-                    <div class="box-header">
-                        <h3 class="box-title">
-                            {{ trans('dashboard.latest_battlereports') }}
-                        </h3>
-                    </div>
-
-                    <div class="box-body" ng-include="'js/templates/latestbattlereports.html'" onload="latestBattlereports()"></div>
-                </div>
-            </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="col-xs-12 col-lg-6">
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">{{ trans('dashboard.bans.title') }}</h3>
@@ -309,6 +297,27 @@
                     <div class="box-body" ng-include="'js/templates/latestbans.html'" onload="latestBans()"></div>
 
                     <div class="overlay" ng-if="!loaded.bans">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-lg-6">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            {{ trans('dashboard.latest_battlereports') }}
+                        </h3>
+
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" ng-click="latestBattlereports()" tooltip="Refresh" id="latest-ban-refresh-btn">
+                                <i class="fa fa-refresh"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" ng-include="'js/templates/latestbattlereports.html'" onload="latestBattlereports()"></div>
+
+                    <div class="overlay" ng-if="!loaded.battlereports">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
                 </div>

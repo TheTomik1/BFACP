@@ -63,6 +63,13 @@ return [
                     'ion' => null,
                 ],
             ],
+            'serverpopulation' => [
+                'title' => 'Server Population',
+                'icon'  => [
+                    'fa'  => 'fa-server',
+                    'ion' => null,
+                ],
+            ],
         ],
     ],
     'admin' => [

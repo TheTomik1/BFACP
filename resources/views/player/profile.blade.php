@@ -534,7 +534,7 @@
                                     @elseif($key == 'pbbans' && (is_null($bfacp->user) || !Auth::user()->ability(null, 'player.view.guids')))
                                         {{-- Do not show the pbbans button --}}
                                     @else
-                                        {!! Html::link($link, trans(sprintf('player.profile.links.items.%s', $key)), ['class' => 'btn bg-blue', 'target' => ($key == 'chatlogs' ? '_self' : '_blank')]) !!}
+                                        {!! Html::link($link, trans(sprintf('player.profile.links.items.%s', $key)), ['class' => 'btn bg-blue', 'target' => ($key == 'chatlogs' or $key == 'disconnects') ? '_blank' : '_self']) !!}
                                     @endif
                                 @endunless
                             @endforeach

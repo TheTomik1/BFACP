@@ -5,8 +5,6 @@
         <div class="col-lg-4">
             <div class="box box-primary">
                 <div class="box-body">
-                    <img src="https://grafana.bf4c.net:2096/goto/a4qE9QyIg?orgId=1" class="img-responsive" alt="Disconnects">
-
                     {!! Former::open()->route('playerdisconnects.search')->method('GET') !!}
 
                     <div class="form-group">

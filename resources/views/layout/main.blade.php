@@ -51,7 +51,7 @@
 
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>{!! (isset($page_title) ? $page_title : '&nbsp;') !!}</h1>
+            <h1 style="color: white">{!! (isset($page_title) ? $page_title : '&nbsp;') !!}</h1>
 
             {!! Breadcrumbs::renderIfExists() !!}
         </section>
@@ -104,8 +104,7 @@
         <div class="pull-right hidden-xs">
             <strong>{{ trans('common.version') }}</strong> {{ BFACP_VERSION }}
         </div>
-        <strong>&copy; 2013-{{ date('Y') }} <a href="http://www.adkgamers.com" target="_blank">A Different Kind, LLC</a>.
-            All rights reserved.</strong> <em>{{ MainHelper::executionTime(true) }}</em>
+        <strong>&copy; 2019-{{ date('Y') }} <a href="https://bf4c.net" target="_blank">BF4C</a>.</strong> <em>{{ MainHelper::executionTime(true) }}</em>
     </footer>
 
     @if($bfacp->isLoggedIn && $bfacp->user->ability(null, ['admin.site.pusher.users.view', 'admin.site.pusher.chat.view']) && ! empty(env('PUSHER_KEY')))

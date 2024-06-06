@@ -45,6 +45,7 @@ return [
                  * Internal LInks
                  */
                 'chatlogs'     => 'Chatlogs',
+                'disconnects' => 'Disconnects',
             ],
         ],
         /**

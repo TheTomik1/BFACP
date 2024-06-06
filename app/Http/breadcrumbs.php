@@ -50,6 +50,13 @@ Breadcrumbs::register('playerdisconnects.search', function($b) {
     ]);
 });
 
+Breadcrumbs::register('serverhistory.listing', function($b) {
+    $b->parent('home');
+    $b->push(trans('navigation.main.items.serverhistory.title'), route('serverhistory.listing'), [
+        'icon' => Macros::faicon(trans('navigation.main.items.serverhistory.icon.fa')),
+    ]);
+});
+
 Breadcrumbs::register('player.listing', function ($b) {
     $b->parent('home');
     $b->push(trans('navigation.main.items.playerlist.title'), route('player.listing'), [

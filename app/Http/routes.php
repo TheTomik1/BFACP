@@ -177,6 +177,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('playerdisconnects', ['as' => 'playerdisconnects.search', 'uses' => 'PlayerDisconnectsController@index', 'middleware' => 'auth']);
 
+    Route::get('serverhistory', ['as' => 'serverhistory.listing', 'uses' => 'ServerHistoryController@index', 'middleware' => 'auth']);
+
     Route::group(['prefix' => 'players'], function () {
         Route::get('/', ['as' => 'player.listing', 'uses' => 'PlayersController@listing']);
         Route::post('{player}/forgive', [

@@ -96,7 +96,11 @@ body {
 .content-wrapper,
 .right-side {
   min-height: 100%;
-  background-color: #ecf0f5;
+  background: url(/images/splash.jpg) no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   z-index: 800;
 }
 .main-footer {

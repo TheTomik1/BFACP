@@ -56,6 +56,13 @@ return [
                     'ion' => null,
                 ],
             ],
+            'playerdisconnects' => [
+                'title' => 'Player Disconnects History',
+                'icon'  => [
+                    'fa'  => 'fa-plug',
+                    'ion' => null,
+                ],
+            ],
         ],
     ],
     'admin' => [

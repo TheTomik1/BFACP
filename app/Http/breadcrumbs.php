@@ -43,6 +43,13 @@ Breadcrumbs::register('battlereport.search', function($b) {
     ]);
 });
 
+Breadcrumbs::register('playerdisconnects.search', function($b) {
+    $b->parent('home');
+    $b->push(trans('navigation.main.items.playerdisconnects.title'), route('playerdisconnects.search'), [
+        'icon' => Macros::faicon(trans('navigation.main.items.playerdisconnects.icon.fa')),
+    ]);
+});
+
 Breadcrumbs::register('player.listing', function ($b) {
     $b->parent('home');
     $b->push(trans('navigation.main.items.playerlist.title'), route('player.listing'), [

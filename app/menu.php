@@ -59,6 +59,12 @@ Menu::make('MainNav', function ($menu) use ($adminPermsList) {
             true));
     }
 
+    if ((Auth::check() && Auth::user()->ability(null, 'chatlogs')) || Config::get('bfacp.site.chatlogs.guest')) {
+        $menu->add(trans('navigation.main.items.playerdisconnects.title'),
+            ['route' => 'playerdisconnects.search'])->prepend(Macros::faicon(trans('navigation.main.items.playerdisconnects.icon.fa'),
+            true));
+    }
+
     // Only show these if the user is logged in
     if (Auth::check()) {
 

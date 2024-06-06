@@ -5,14 +5,16 @@
         <div class="col-lg-4">
             <div class="box box-primary">
                 <div class="box-body">
-                    {!! Former::open()->route('battlereport.search')->method('GET') !!}
+                    <img src="https://grafana.bf4c.net:2096/goto/a4qE9QyIg?orgId=1" class="img-responsive" alt="Disconnects">
+
+                    {!! Former::open()->route('playerdisconnects.search')->method('GET') !!}
 
                     <div class="form-group">
                         <label class="control-label col-lg-2 col-sm-4">Server</label>
 
                         <div class="col-lg-10 col-sm-8">
                             <select class="form-control" name="server" id="server">
-                                <option value="-1" {{ \Illuminate\Support\Facades\Input::has('server') && \Illuminate\Support\Facades\Input::get('server') == -1 ? 'selected' : '' }}>
+                                <option value="-1" <?php echo \Illuminate\Support\Facades\Input::has('server') && \Illuminate\Support\Facades\Input::get('server') == -1 ? 'selected' : ''?>>
                                     Select Server...
                                 </option>
                                 @foreach($games as $game)
@@ -28,6 +30,8 @@
                             </select>
                         </div>
                     </div>
+
+                    {!! Former::text('players')->label('Players')->help('Separate multiple players with a comma (,). Partial names accepted.') !!}
 
                     <div class="form-group" id="date-range-container">
                         <label class="control-label col-lg-2 col-sm-4">Date</label>
@@ -60,34 +64,28 @@
                         <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Game</th>
                                 <th>Server</th>
-                                <th>Link</th>
-                                <th>Map</th>
-                                <th>Duration</th>
-                                <th>Total players</th>
-                                <th>Round end players</th>
-                                <th>Date</th>
+                                <th>Timestamp</th>
+                                <th>Player</th>
+                                <th>Reason</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @forelse ($battleReports as $battleReport)
+                            @forelse ($playerDisconnects as $playerDisconnect)
                                 <tr>
                                     <td>
-                                        <span class="{{ $battleReport->server->game->class_css }}">{{ $battleReport->server->game->Name }}</span>
+                                        @foreach($games as $game)
+                                            @foreach($game->servers as $server)
+                                                @if($server->ServerID == $playerDisconnect->gameserver)
+                                                    {{ str_limit($server->ServerName, 30) }}
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                     </td>
-                                    <td>{{ $battleReport->ServerName }}</td>
-                                    <td>
-                                        <a href="{{ $battleReport->battlereport_url }}" target="_blank">
-                                            {{ $battleReport->battlereport_url }}
-                                        </a>
-                                    </td>
-                                    <td>{{ $battleReport->map }}</td>
-                                    <td>{{ round($battleReport->duration / 60, 2) }} minutes</td>
-                                    <td>{{ $battleReport->total_players  }}</td>
-                                    <td>{{ $battleReport->round_end_players }}</td>
-                                    <td ng-bind="moment('{{ $battleReport->datetime }}').format('LLL')"></td>
+                                    <td ng-bind="moment('{{ $playerDisconnect->timestamp }}').format('LLL')"></td>
+                                    <td>{{ $playerDisconnect->playername }}</td>
+                                    <td>{{ $playerDisconnect->msg }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -105,7 +103,7 @@
 
                 <div class="box-footer">
                     <div class="pull-right">
-                        {!! $battleReports->appends(\Illuminate\Support\Facades\Input::except('page'))->links() !!}
+                        {!! $playerDisconnects->appends(\Illuminate\Support\Facades\Input::except('page'))->links() !!}
                     </div>
                 </div>
             </div>

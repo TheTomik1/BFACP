@@ -301,6 +301,7 @@ class Player extends Elegant
         $links[] = [
             'chatlogs' => route('chatlog.search', ['pid' => $this->PlayerID]),
             'disconnects' => route('playerdisconnects.search', ['players' => $this->SoldierName]),
+            'emblems' => route('emblems.search', ['players' => $this->SoldierName]),
         ];
 
         $links2 = [];

@@ -2,12 +2,14 @@
 
 namespace BFACP\Http\Controllers;
 
+use BFACP\Battlefield\Emblem;
 use BFACP\Adkats\Record;
 use BFACP\Battlefield\Player;
 use BFACP\Battlefield\Server\Server;
 use BFACP\Facades\Main as MainHelper;
 use BFACP\Repositories\PlayerRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -111,7 +113,12 @@ class PlayersController extends Controller
 
         $servers = Server::active()->with('stats')->get();
 
-        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'groups', 'servers'));
+        $current_emblem = Emblem::where('playername', $player->SoldierName)->orderBy('created_at', 'desc')->first();
+
+        $configEmblemsBaseUrl = Config::get('bfacp.site.emblems.baseurl');
+        $configEmblemsPath = Config::get('bfacp.site.emblems.path');
+
+        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'groups', 'servers', 'current_emblem', 'configEmblemsBaseUrl', 'configEmblemsPath'));
     }
 
     /**

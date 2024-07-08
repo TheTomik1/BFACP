@@ -19,6 +19,53 @@ The Battlefield Admin Control Panel (BFACP) is a web based admin tool designed t
 
 [FAQ](https://github.com/Prophet731/BFAdminCP/wiki/FAQ)
 
+# New features in this fork
+Due to the fact that some of the features in the original BFACP are not working as intended, I have decided to fork the project and make the necessary changes to make them work. 
+After observing what admins on our servers would like to see in the BFACP, I also added new features that are not present in the original BFACP.
+
+Since some of the new features rely on external services, be sure to message me for assistance. I will be happy to share the code with you and help you set these features up.
+
+## Watchlist
+* Requirement: [E4GL AdKats](https://github.com/Hedius/E4GLAdKats)
+
+This feature allows for seeing online watchlist players on the dashboard.
+
+## Punish support in the profile
+It is now possible to issue a punish command to a player directly from their profile.
+
+## Ban list
+Ban list search input field has been fixed and now works as intended.
+
+## Battlereports
+* Requirement: Custom solution (message me for details)
+
+This feature allows for viewing battlereports from your servers. 15 latest battlereports are shown on the dashboard, but 
+there is also a dedicated page for viewing all battlereports.
+
+## Scoreboard - Permanent bans
+It is now possible to issue permanent bans directly from the scoreboard.
+
+## Player search fixed on smaller screens
+The player search input field does not work in the original BFACP on smaller screens. This has been fixed in this fork.
+
+## Player Disconnects History
+* Requirement: [Event Logger plugin](https://github.com/AdKats/EventLogger) with logging of player disconnect events enabled to the database
+
+This feature allows for viewing player disconnects history. It shows the time of the disconnect, the player's name, and the reason for the disconnect.
+
+## Player Emblems
+* Requirement: Custom solution (message me for details)
+
+This feature allows for viewing player emblems. There is a dedicated page for viewing all player emblems including searching option. Current emblem
+can also be viewed in the player profile.
+
+## New background
+The background now instead of white dull color has a new splash image of a huge fight between jets.
+
+## Additional features
+This fork also includes smaller fixes and improvements to the original BFACP that are just not worth mentioning here.
+See the commits for more details.
+
 # Requirements
 
 * MySQL Database (5.6) or MariaDB 5.5 Series or MariaDB 10.x Series

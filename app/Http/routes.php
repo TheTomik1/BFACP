@@ -173,6 +173,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('chatlogs', ['as' => 'chatlog.search', 'uses' => 'ChatlogController@index', 'middleware' => 'chatlogs']);
 
+    Route::get('emblems', ['as' => 'emblems.search', 'uses' => 'EmblemsController@index', 'middleware' => 'auth']);
+
     Route::get('battlereports', ['as' => 'battlereport.search', 'uses' => 'BattlereportController@index', 'middleware' => 'auth']);
 
     Route::get('playerdisconnects', ['as' => 'playerdisconnects.search', 'uses' => 'PlayerDisconnectsController@index', 'middleware' => 'auth']);

@@ -175,6 +175,24 @@
                             @endif
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Current Emblem</label>
+
+                                <div class="col-sm-9">
+                                    @if ( ! is_null($current_emblem))
+                                        <img alt="Emblem" class="img-thumbnail" src={{ str_replace($configEmblemsPath, $configEmblemsBaseUrl, $current_emblem->emblem_path ) }}>
+                                    @else
+                                        <div class="col-sm-9">
+                                            <div class="form-control-static">
+                                                <ul class="list-inline">
+                                                    {!! Macros::faicon('fa-info-circle') !!} No emblem found.
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">{{ trans('player.profile.details.items.rank') }}</label>
 
                                 <div class="col-sm-9">

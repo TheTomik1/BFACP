@@ -46,6 +46,7 @@ return [
                  */
                 'chatlogs'     => 'Chatlogs',
                 'disconnects' => 'Disconnects',
+                'emblems'      => 'Emblems',
             ],
         ],
         /**

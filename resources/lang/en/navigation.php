@@ -18,6 +18,13 @@ return [
                     'ion' => null,
                 ],
             ],
+            'emblems' => [
+                'title' => 'Player Emblem History',
+                'icon'  => [
+                    'fa'  => 'fa-image',
+                    'ion' => null,
+                ],
+            ],
             'servers' => [
                 'title'      => 'Servers',
                 'scoreboard' => [

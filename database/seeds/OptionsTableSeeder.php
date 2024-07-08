@@ -86,6 +86,24 @@ class OptionsTableSeeder extends Seeder
                 'option_value'       => false,
                 'option_description' => 'Enable uptime robot. Default: Disabled',
             ],
+            [
+                'option_key'        => 'site.battlereports.guest',
+                'option_title'      => 'Allow Guest Viewing of Battle Reports',
+                'option_value'      => true,
+                'option_description' => 'Should users be allowed to view the battle reports when not logged in.',
+            ],
+            [
+                'option_key'        => 'site.emblems.baseurl',
+                'option_title'      => 'Emblems Webserver Url',
+                'option_value'      => null,
+                'option_description' => 'The base url of the web server serving emblem images.',
+            ],
+            [
+                'option_key'        => 'site.emblems.path',
+                'option_title'      => 'Emblems Storage Path',
+                'option_value'      => null,
+                'option_description' => 'Relative path to the folder which your web server uses to store emblems. When displaying emblems this value gets replaced by the one above.',
+            ]
         ];
 
         Option::insert($options);

@@ -282,6 +282,24 @@ class PlayerRepository extends BaseRepository
     }
 
     /**
+     * Returns the player notes.
+     *
+     * @param int $id Player ID
+     *
+     * @return object
+     */
+    public function getPlayerNotes($id) {
+        try {
+            $notes = DB::table('bfacp_player_notes')->join('tbl_playerdata', 'bfacp_player_notes.admin_id', '=',
+                'tbl_playerdata.PlayerID')->where('bfacp_player_notes.player_id', $id)->get();
+
+            return $notes;
+        } catch (ModelNotFoundException $e) {
+            throw new PlayerNotFoundException(404, 'Player Not Found');
+        }
+    }
+
+    /**
      * Sets which relations should be returned.
      *
      * @param array $opts

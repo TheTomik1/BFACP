@@ -10,6 +10,10 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
             pageNum: '@id'
         });
 
+        var Notes = $resource('api/players/:playerId/notes?page=:pageNum', {
+            playerId: '@id'
+        });
+
         var ACS = $resource('api/battlelog/players/:playerId/acs', {
             playerId: '@id'
         });
@@ -49,9 +53,20 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
             data: []
         };
 
+        $scope.notes = {
+            current_page: 1,
+            from: 1,
+            last_page: null,
+            per_page: null,
+            to: null,
+            total: null,
+            data: []
+        }
+
         $scope.refresh = {
             sessions: true,
             records: true,
+            notes: true,
             acs: true
         };
 
@@ -70,6 +85,21 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 console.error('fatal error', e);
             });
         };
+
+        $scope.fetchNotes = function () {
+            $scope.refresh.notes = true;
+
+            Notes.get({
+                playerId: $scope.playerId,
+                pageNum: $scope.notes.current_page
+            }, function (data) {
+                $scope.refresh.notes = false;
+                $scope.notes = data.data;
+            }, function (e) {
+                $scope.fetchNotes();
+                console.error('fatal error', e);
+            });
+        }
 
         $scope.fetchAcs = function () {
             if (!$scope.refresh.acs) {
@@ -163,6 +193,7 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
         $scope.fetchRecords();
         $scope.fetchAcs();
         $scope.fetchExtendedDetails();
+        $scope.fetchNotes();
 
         $scope.admin = {
             forgive: {
@@ -176,6 +207,10 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 message: '',
                 processing: false,
                 server: null
+            },
+            note: {
+                message: '',
+                processing: false
             }
         }
 
@@ -240,6 +275,33 @@ angular.module('bfacp').controller('PlayerController', ['$scope', '$resource', '
                 $scope.admin.punish.processing = false;
             });
         };
+
+        $scope.addNote = function () {
+            if ($scope.admin.note.message === "") {
+                toastr.error('No note message provided.');
+                return false;
+            }
+
+            $scope.admin.note.processing = true;
+            $http.post('players/' + $scope.playerId + '/note', {
+                playerId: $scope.playerId,
+                note: $scope.admin.note.message
+            }).success(function (data) {
+                if (data.status == 'error') {
+                    toastr.error(data.message);
+                } else if (data.status == 'warning') {
+                    toastr.warning(data.message);
+                } else {
+                    toastr.success(data.message);
+                    $scope.fetchNotes();
+                }
+            }).error(function (data) {
+                toastr.error(data.message, 'error');
+                console.error(data);
+            }).finally(function () {
+                $scope.admin.note.processing = false;
+            });
+        }
 
         /**
          * TODO: Add ability to modify player groups

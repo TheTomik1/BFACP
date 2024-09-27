@@ -21,7 +21,7 @@ class Emblem extends Model
      *
      * @var string
      */
-    protected $table = 'emblem_logging';
+    protected $table = 'bfacp_emblems';
 
     /**
      * Table primary key.

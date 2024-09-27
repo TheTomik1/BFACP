@@ -71,10 +71,6 @@ Menu::make('MainNav', function ($menu) use ($adminPermsList) {
             true));
     }
 
-    $menu->add(trans('navigation.main.items.serverpopulation.title'),
-        ['route' => 'serverhistory.listing'])->prepend(Macros::faicon(trans('navigation.main.items.serverpopulation.icon.fa'),
-        true));
-
     // Only show these if the user is logged in
     if (Auth::check()) {
 

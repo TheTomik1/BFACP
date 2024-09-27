@@ -25,44 +25,90 @@ After observing what admins on our servers would like to see in the BFACP, I als
 
 Since some of the new features rely on external services, be sure to message me for assistance. I will be happy to share the code with you and help you set these features up.
 
-## Watchlist
+### Watchlist
 * Requirement: [E4GL AdKats](https://github.com/Hedius/E4GLAdKats)
 
 This feature allows for seeing online watchlist players on the dashboard.
 
-## Punish support in the profile
+### Punish support in the profile
 It is now possible to issue a punish command to a player directly from their profile.
 
-## Ban list
+### Ban list
 Ban list search input field has been fixed and now works as intended.
 
-## Battlereports
+### Battlereports
 * Requirement: Custom solution (message me for details)
 
 This feature allows for viewing battlereports from your servers. 15 latest battlereports are shown on the dashboard, but 
 there is also a dedicated page for viewing all battlereports.
 
-## Scoreboard - Permanent bans
+__SQL Table__
+```sql
+CREATE TABLE bfacp_battlereports (
+id                int auto_increment primary key,
+guid              text not null,
+battlereport_url  text not null,
+map               varchar(100) not null,
+duration          int not null,
+total_players     int not null,
+round_end_players int not null,
+score_team_1      int not null,
+score_team_2      int not null,
+datetime          datetime default CURRENT_TIMESTAMP not null
+);
+```
+
+### Scoreboard - Permanent bans
 It is now possible to issue permanent bans directly from the scoreboard.
 
-## Player search fixed on smaller screens
+### Player search fixed on smaller screens
 The player search input field does not work in the original BFACP on smaller screens. This has been fixed in this fork.
 
-## Player Disconnects History
+### Player Disconnects History
 * Requirement: [Event Logger plugin](https://github.com/AdKats/EventLogger) with logging of player disconnect events enabled to the database
 
 This feature allows for viewing player disconnects history. It shows the time of the disconnect, the player's name, and the reason for the disconnect.
 
-## Player Emblems
+### Player Emblems
 * Requirement: Custom solution (message me for details)
 
 This feature allows for viewing player emblems. There is a dedicated page for viewing all player emblems including searching option. Current emblem
 can also be viewed in the player profile.
 
-## New background
+__SQL Table__
+```sql
+CREATE TABLE bfacp_player_emblems (
+    id          int auto_increment primary key,
+    playername  text not null,
+    player_id   int not null,
+    emblem_id   bigint not null,
+    emblem_path text not null,
+    created_at  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP
+);
+```
+
+### Player Notes
+* Requirement: Custom solution (message me for details)
+
+This feature allows for adding notes to players. Notes are visible in the player profile.
+
+__SQL Table__
+```sql
+CREATE TABLE bfacp_player_notes (
+     id        int auto_increment primary key,
+     player_id int unsigned not null,
+     admin_id  int unsigned not null,
+     note      text not null,
+     added_at  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+     constraint bfacp_player_notes_tbl_playerdata_PlayerID_fk foreign key (player_id) references tbl_playerdata (PlayerID),
+     constraint bfacp_player_notes_tbl_playerdata_PlayerID_fk_2 foreign key (admin_id) references tbl_playerdata (PlayerID)
+);
+```
+
+### New background
 The background now instead of white dull color has a new splash image of a huge fight between jets.
 
-## Additional features
+### Additional features
 This fork also includes smaller fixes and improvements to the original BFACP that are just not worth mentioning here.
 See the commits for more details.
 

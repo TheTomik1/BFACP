@@ -8,6 +8,7 @@ use BFACP\Battlefield\Player;
 use BFACP\Battlefield\Server\Server;
 use BFACP\Facades\Main as MainHelper;
 use BFACP\Repositories\PlayerRepository;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Collection;
@@ -265,5 +266,35 @@ class PlayersController extends Controller
         $player->forget();
 
         return MainHelper::response(null, 'Punish Issued.');
+    }
+
+    public function issueNote(Player $player) {
+        if (! $this->user->ability(null, 'player.infractions.punish')) {
+            return MainHelper::response(null, 'Unauthorized!', 'error', 401);
+        }
+
+        $player_id = $this->request->get('playerId');
+        $note = $this->request->get('note');
+
+        $adminId = null;
+
+        // Check if the issuing admin has a player in the database for the same game as the targeted player.
+        $soldier = $this->user->soldiers()->with([
+            'player' => function ($query) use (&$player) {
+                $query->where('GameID', $player->GameID);
+            },
+        ])->first();
+
+        if (! is_null($soldier)) {
+            $adminId = $soldier->player_id;
+        }
+
+        DB::table('bfacp_player_notes')->insert([
+            'player_id' => $player_id,
+            'admin_id' => $adminId,
+            'note' => $note
+        ]);
+
+        return MainHelper::response(null, 'Note Issued.');
     }
 }

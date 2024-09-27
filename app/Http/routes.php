@@ -43,6 +43,8 @@ if (PHP_SAPI !== 'cli') {
             Route::get('{id}/sessions',
                 ['as' => 'api.players.show.sessions', 'uses' => 'PlayersController@showSessions'])->where('id',
                 '[0-9]+');
+            Route::get('{id}/notes',
+                ['as' => 'api.players.show.notes', 'uses' => 'PlayersController@showNotes'])->where('id', '[0-9]+');
         });
 
         /*=====================================
@@ -191,6 +193,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('{player}/punish', [
             'as'         => 'player.update',
             'uses' => 'PlayersController@issuePunish',
+            'middleware' => 'auth',
+        ])->where('id', '[0-9]+');
+        Route::post('{player}/note', [
+            'as'         => 'player.update',
+            'uses' => 'PlayersController@issueNote',
             'middleware' => 'auth',
         ])->where('id', '[0-9]+');
         Route::get('{id}/{name?}', [

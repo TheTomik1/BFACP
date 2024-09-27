@@ -299,7 +299,7 @@ class Player extends Elegant
         }
 
         $links[] = [
-            'chatlogs' => route('chatlog.search', ['pid' => $this->PlayerID]),
+            'chatlogs' => route('chatlog.search', ['server' => "-1", 'players' => $this->SoldierName]),
             'disconnects' => route('playerdisconnects.search', ['players' => $this->SoldierName]),
             'emblems' => route('emblems.search', ['players' => $this->SoldierName]),
         ];
@@ -308,7 +308,7 @@ class Player extends Elegant
 
         if ($game == 'BF4') {
             $links2 = [
-                'cheatreport' => sprintf('http://bf4cr.com/?pid=&uid=%s&cnt=&startdate=', $this->SoldierName),
+                'cheatreport' => sprintf('https://bf4cr.com/?pid=&uid=%s&cnt=&startdate=', $this->SoldierName),
                 'bf4db' => sprintf('https://bf4db.com/player/search?query=%s', $this->SoldierName),
                 'ba' => sprintf('https://battlefield.agency/player/by-pb_guid/%s', $this->PBGUID),
             ];

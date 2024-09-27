@@ -110,4 +110,18 @@ class PlayersController extends Controller
 
         return MainHelper::response($sessions, null, null, null, false, true);
     }
+
+    /**
+     * Gets player notes.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Support\Facades\Response
+     */
+
+    public function showNotes($id) {
+        $notes = $this->repository->getPlayerNotes($id);
+
+        return MainHelper::response($notes, null, null, null, false, true);
+    }
 }

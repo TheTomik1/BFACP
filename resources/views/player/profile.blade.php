@@ -248,6 +248,11 @@
                                 <a href="javascript://" data-target="#ip-history" data-toggle="tab">{{ trans('player.profile.charts.ip_history.title') }}
                                     <span class="badge bg-green">{{ $charts['iphistory']->count() }}</span></a></li>
                         @endif
+                        <li>
+                            <a href="javascript://" data-target="#notes" data-toggle="tab">Notes
+                                <span class="badge bg-green" ng-bind="notes.length"></span>
+                            </a>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -558,6 +563,43 @@
                             @endforeach
                         </div>
 
+                        <div class="tab-pane" id="notes">
+                            <div class="box-header">
+                                <h3 class="box-title">Player Notes</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="note">Note</label>
+                                    <textarea class="form-control" rows="3" id="note" placeholder="Enter player note here..."
+                                              ng-model="admin.note.message"
+                                              ng-disabled="admin.note.processing"></textarea>
+                                </div>
+                                <button type="submit" ng-click="addNote()" class="btn btn-success">Submit</button>
+                            </div>
+
+                            <div class="box-footer">
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                    <th>Created</th>
+                                    <th>Admin</th>
+                                    <th>Note</th>
+                                    </thead>
+
+                                    <tbody ng-repeat="note in notes">
+                                    <tr>
+                                        <td><span ng-bind="note.added_at"></span></td>
+                                        <td>
+                                            <span ng-bind="note.SoldierName"></span>
+                                        </td>
+                                        <td>
+                                            <p ng-bind="note.note" style="white-space: pre-wrap"></p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="tab-pane" id="command-overview"></div>
                         <div class="tab-pane" id="aliases">
                             <div id="aliases-chart"></div>
@@ -653,7 +695,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
-                    <div class="box-header">
+                    <div class="box-header">bfacp_player_notes
                         <h3 class="box-title">{{ trans('player.profile.records.title') }}</h3>
 
                         <div class="box-tools pull-right">

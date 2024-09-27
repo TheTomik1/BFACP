@@ -21,7 +21,7 @@ class Battlereport extends Model
      *
      * @var string
      */
-    protected $table = 'battlereports';
+    protected $table = 'bfacp_battlereports';
 
     /**
      * Table primary key.

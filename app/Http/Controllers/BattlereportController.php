@@ -36,9 +36,9 @@ class BattlereportController extends Controller
             },
         ])->get();
 
-        $battleReports = Battlereport::join('bfacp_settings_servers', 'battlereports.guid', '=', 'bfacp_settings_servers.battlelog_guid')
+        $battleReports = Battlereport::join('bfacp_settings_servers', 'bfacp_battlereports.guid', '=', 'bfacp_settings_servers.battlelog_guid')
             ->join('tbl_server', 'ServerID', '=', 'bfacp_settings_servers.server_id')
-            ->orderBy('battlereports.datetime', 'desc');
+            ->orderBy('bfacp_battlereports.datetime', 'desc');
 
         if ($this->request->has('server') && is_numeric($this->request->get('server')) && $this->request->get('server') > 0) {
             $battleReports->where('bfacp_settings_servers.server_id', $this->request->get('server'));

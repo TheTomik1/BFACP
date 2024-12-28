@@ -75,8 +75,8 @@ class ReportsController extends Controller
         try {
             $record = $this->repository->getReportById($this->request->get('id'));
 
-            if (! in_array($record->command_action, [18, 20])) {
-                throw new UpdateResourceFailedException('Unable to complete action. Report has already been acted on.');
+            if (in_array($record->command_action, [40, 41, 42])) {
+                return MainHelper::response(null, 'Unable to complete action. Report has already been acted on.', 'error', 409);
             }
 
             // If the action is {Accept, Deny, Ignore} Round Report then we just need to update the existing record.

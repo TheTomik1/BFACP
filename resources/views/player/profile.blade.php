@@ -229,8 +229,8 @@
                         <li>
                             <a href="javascript://" data-target="#ban-previous" data-toggle="tab">
                                 {{ trans('player.profile.bans.previous.title') }}
-                                @if( ! is_null($player->ban) && count($player->ban->previous) > 1)
-                                    <span class="badge bg-red">{{ count($player->ban->previous) - 1 }}</span>
+                                @if( ! is_null($player->ban) && ! $player->ban->is_active)
+                                    <span class="badge bg-red">{{ count($player->ban->previous) }}</span>
                                 @endif
                             </a>
                         </li>
@@ -438,7 +438,8 @@
                                     <th>{{ trans('player.profile.bans.current.table.col3') }}</th>
                                     <th>{{ trans('player.profile.bans.current.table.col4') }}</th>
                                     <th>{{ trans('player.profile.bans.current.table.col5') }}</th>
-                                    <th width="25%">{{ trans('player.profile.bans.current.table.col6') }}</th>
+                                    <th>{{ trans('player.profile.bans.current.table.col6') }}</th>
+                                    <th width="25%">{{ trans('player.profile.bans.current.table.col7') }}</th>
                                     </thead>
 
                                     <tbody>
@@ -451,6 +452,9 @@
                                                 <span ng-bind="moment('{{ $player->ban->ban_expires }}').fromNow()" tooltip="{{ Macros::moment($player->ban->ban_expires) }}"></span>
                                             </td>
                                         @endif
+                                        <td>
+                                            {{ $player->ban->record->source_name }}
+                                        </td>
                                         <td>
                                             @if($player->ban->record->server->is_active)
                                                 <a href="servers/live#id-{{ $player->ban->record->server->ServerID }}" target="_blank" tooltip="{{ $player->ban->record->server->ServerName }}">
@@ -498,47 +502,47 @@
                         </div>
 
                         <div class="tab-pane" id="ban-previous">
-                            @if( ! is_null($player->ban) && ! is_null($player->ban->previous) && count($player->ban->previous) > 1 )
+                            @if( ! is_null($player->ban) && ! is_null($player->ban->previous) && !$player->ban->is_active)
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <th>{{ trans('player.profile.bans.previous.table.col1') }}</th>
                                     <th>{{ trans('player.profile.bans.previous.table.col2') }}</th>
                                     <th>{{ trans('player.profile.bans.previous.table.col3') }}</th>
                                     <th>{{ trans('player.profile.bans.previous.table.col4') }}</th>
-                                    <th width="25%">{{ trans('player.profile.bans.previous.table.col5') }}</th>
+                                    <th>{{ trans('player.profile.bans.previous.table.col5') }}</th>
+                                    <th width="25%">{{ trans('player.profile.bans.previous.table.col6') }}</th>
                                     </thead>
 
                                     <tbody>
                                     @foreach($player->ban->previous as $ban)
-                                        @if($player->ban->latest_record_id == $ban->record_id)
-                                            {{-- Skip --}}
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <span ng-bind="moment('{{ $ban->stamp }}').fromNow()" tooltip="{{ Macros::moment($ban->stamp) }}"></span>
-                                                </td>
-                                                <td>
-                                                    <span ng-bind="momentDuration({{ $ban->command_numeric }}, 'minutes')"></span>
-                                                </td>
-                                                <td>
-                                                    @if($ban->server->is_active)
-                                                        <a href="servers/live#id-{{ $ban->server->ServerID }}" target="_blank" tooltip="{{ $ban->server->ServerName }}">
-                                                            {{ $ban->server->server_name_short or str_limit($ban->server->ServerName, 30) }}
-                                                        </a>
-                                                    @else
-                                                        <span tooltip="{{ $ban->server->ServerName }}">{{ $ban->server->server_name_short or str_limit($ban->server->ServerName, 30) }}</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if(in_array($ban->command_action, [8, 73]))
-                                                        <label class="label label-danger">{{ trans('player.profile.bans.type.permanent.short') }}</label>
-                                                    @else
-                                                        <label class="label label-warning">{{ trans('player.profile.bans.type.temporary.short') }}</label>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $ban->record_message }}</td>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <td>
+                                                <span ng-bind="moment('{{ $ban->stamp }}').fromNow()" tooltip="{{ Macros::moment($ban->stamp) }}"></span>
+                                            </td>
+                                            <td>
+                                                <span ng-bind="momentDuration({{ $ban->command_numeric }}, 'minutes')"></span>
+                                            </td>
+                                            <td>
+                                                {{ $ban->source_name }}
+                                            </td>
+                                            <td>
+                                                @if($ban->server->is_active)
+                                                    <a href="servers/live#id-{{ $ban->server->ServerID }}" target="_blank" tooltip="{{ $ban->server->ServerName }}">
+                                                        {{ $ban->server->server_name_short or str_limit($ban->server->ServerName, 30) }}
+                                                    </a>
+                                                @else
+                                                    <span tooltip="{{ $ban->server->ServerName }}">{{ $ban->server->server_name_short or str_limit($ban->server->ServerName, 30) }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(in_array($ban->command_action, [8, 73]))
+                                                    <label class="label label-danger">{{ trans('player.profile.bans.type.permanent.short') }}</label>
+                                                @else
+                                                    <label class="label label-warning">{{ trans('player.profile.bans.type.temporary.short') }}</label>
+                                                @endif
+                                            </td>
+                                            <td>{{ $ban->record_message }}</td>
+                                        </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -695,7 +699,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
-                    <div class="box-header">bfacp_player_notes
+                    <div class="box-header">
                         <h3 class="box-title">{{ trans('player.profile.records.title') }}</h3>
 
                         <div class="box-tools pull-right">

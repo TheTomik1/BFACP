@@ -77,7 +77,7 @@ can also be viewed in the player profile.
 
 __SQL Table__
 ```sql
-CREATE TABLE bfacp_player_emblems (
+CREATE TABLE bfacp_emblems (
     id          int auto_increment primary key,
     playername  text not null,
     player_id   int not null,

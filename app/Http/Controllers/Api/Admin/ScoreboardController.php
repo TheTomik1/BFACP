@@ -441,4 +441,32 @@ class ScoreboardController extends Controller
 
         return $this->_response();
     }
+
+    /*
+     * Warn the selected player(s).
+     *
+     * @return MainHelper
+     */
+    public function postWarn()
+    {
+        $this->hasPermission('admin.scoreboard.warn');
+
+        foreach ($this->players as $player) {
+            try {
+                $this->data[] = $this->repository->adminWarn($player, $this->request->get('message', null));
+            } catch (PlayerNotFoundException $e) {
+                $this->errors[] = [
+                    'player'  => $player,
+                    'message' => $e->getMessage(),
+                ];
+            } catch (RconException $e) {
+                $this->errors[] = [
+                    'player'  => $player,
+                    'message' => $e->getMessage(),
+                ];
+            }
+        }
+
+        return $this->_response();
+    }
 }

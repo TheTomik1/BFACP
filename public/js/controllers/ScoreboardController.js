@@ -827,6 +827,10 @@ angular.module('bfacp').controller('ScoreboardController', ['$scope', '$rootScop
                         }
                         break;
 
+                    case "warn":
+                        $scope.admin.warnPlayer(players, message);
+                        break;
+
                     default:
                         $scope.admin.processing = false;
                         break;
@@ -1154,7 +1158,31 @@ angular.module('bfacp').controller('ScoreboardController', ['$scope', '$rootScop
 
                     $scope.admin.processing = false;
                 })
-            }
+            },
+            warnPlayer: function(players, message) {
+                SBA.warn($scope.selectedId, players, message).success(function (data) {
+                    let player = null;
+                    const status = data.status;
+                    const failed = data.data.failed;
+                    const passed = data.data.passed;
+
+                    if (status == 'success') {
+                        for (var i = 0; i < failed.length; i++) {
+                            player = failed[i];
+                            toastr.warning(player.message);
+                        }
+                        for (var i = 0; i < passed.length; i++) {
+                            player = passed[i];
+                            toastr.success(player.message, player.player);
+                        }
+                        $scope.admin.resetSys();
+                    } else {
+                        toastr.error(data.message);
+                    }
+
+                    $scope.admin.processing = false;
+                })
+            },
         };
     }
 ]);

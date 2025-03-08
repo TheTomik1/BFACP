@@ -1040,6 +1040,29 @@ class LiveServerRepository extends BaseRepository
         throw new RconException(400, sprintf('"%s" is not a valid name.', $player));
     }
 
+    public function adminWarn($player, $message)
+    {
+        if ($this->isValidName($player)) {
+            $p = Player::where('GameID', $this->gameID)->where('SoldierName', $player)->first();
+
+            if (! $p) {
+                throw new PlayerNotFoundException(404, 'Unable to mute. %s was not found.', $player);
+            }
+
+            if (empty($message)) {
+                throw new RconException(400, 'No reason provided');
+            }
+
+            return [
+                'player'  => $player,
+                'message' => $message,
+                'record'  => $this->log($player, 'player_warn', $message, 0, false),
+            ];
+        }
+
+        throw new RconException(400, sprintf('"%s" is not a valid name.', $player));
+    }
+
     /*-----  End of Admin Commands  ------*/
 
     /**

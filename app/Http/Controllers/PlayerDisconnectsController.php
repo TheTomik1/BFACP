@@ -35,6 +35,7 @@ class PlayerDisconnectsController extends Controller
     public function index()
     {
         $playerDisconnects = Disconnect::
+            where('event', 'Player Disconnected')->
             orderBy('timestamp', 'desc');
 
         $games = $this->game->with([

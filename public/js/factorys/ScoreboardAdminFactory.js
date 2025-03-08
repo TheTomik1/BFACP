@@ -119,6 +119,16 @@ angular.module('bfacp').factory('SBA', ['$http', function ($http) {
             };
 
             return $http.post(baseurl + '/ban', payload);
+        },
+
+        warn: function (server_id, players, message) {
+            var payload = {
+                server_id: server_id,
+                message: message,
+                players: players,
+            };
+
+            return $http.post(baseurl + '/warn', payload);
         }
     };
 }]);

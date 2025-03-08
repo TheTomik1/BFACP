@@ -163,6 +163,12 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at'   => $now,
             ],
             [
+                'name'         => 'admin.scoreboard.warn',
+                'display_name' => 'Warn the player',
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ],
+            [
                 'name'         => 'admin.site.motd',
                 'display_name' => 'View Message of the Day',
                 'created_at'   => $now,

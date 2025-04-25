@@ -206,6 +206,11 @@
 
                 var csrf = $("input[name='_token']").val();
 
+                if (unban && unban.includes('Unbanning')) {
+                    alert("Please provide more descriptive reason for unban.");
+                    return;
+                }
+
                 if (unban !== null) {
                     btn.find("i").removeClass('fa-eraser').addClass('fa-spinner fa-pulse');
                     btn.attr('disabled', true);

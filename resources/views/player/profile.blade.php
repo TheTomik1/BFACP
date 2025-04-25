@@ -234,6 +234,12 @@
                                 @endif
                             </a>
                         </li>
+                        <li>
+                            <a href="javascript://" data-target="#mutes" data-toggle="tab">
+                                {{ trans('player.profile.mutes.title') }}
+                                <span class="badge bg-green" style="margin-right: 5px;">{{ isset($mutes) ?  $mutes->count() : 0 }}</span>
+                            </a>
+                        </li>
                         <li class="active">
                             <a href="javascript://" data-target="#links" data-toggle="tab">{{ trans('player.profile.links.title') }}</a>
                         </li>
@@ -560,11 +566,124 @@
                                         {{-- Do not show the chatlogs button --}}
                                     @elseif($key == 'pbbans' && (is_null($bfacp->user) || !Auth::user()->ability(null, 'player.view.guids')))
                                         {{-- Do not show the pbbans button --}}
+                                    @elseif($key == 'bf4db')
+                                        @if($bf4db['data']['is_banned'] == 1)
+                                            {!! Html::link($link, trans(sprintf('player.profile.links.items.%s', $key)) . ' - ' . $bf4db['data']['ban_reason'], ['class' => 'btn bg-red']) !!}
+                                        @else
+                                            {!! Html::link($link, trans(sprintf('player.profile.links.items.%s', $key)), ['class' => 'btn bg-blue']) !!}
+                                        @endif
                                     @else
                                         {!! Html::link($link, trans(sprintf('player.profile.links.items.%s', $key)), ['class' => 'btn bg-blue', 'target' => ($key == 'chatlogs' or $key == 'disconnects') ? '_blank' : '_self']) !!}
                                     @endif
                                 @endunless
                             @endforeach
+                        </div>
+                        <div class="tab-pane" id="mutes">
+                            <div class="box-header">
+                                <h3 class="box-title">{{ trans('player.profile.mutes.title') }}</h3>
+
+                                <p>This is work in progress. You can now however mute/unmute player using panel.</p>
+
+                                <div style="display: flex; flex-direction: column; gap: 1em; margin: 1em 0 1em 0">
+                                    <div>
+                                        <input type="number" style="width: 60px;"
+                                               class="form-control input-sm pull-left" min="1"
+                                               ng-model="admin.punish.points"
+                                               ng-disabled="admin.forgive.processing">
+
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" disabled class="form-control" style="border-radius: 0" placeholder="Reason to language punish the player." ng-model="admin.punish.message" ng-disabled="admin.forgive.processing">
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-danger btn-flat" style="" ng-click="issuePunish()" ng-disabled="admin.forgive.processing">
+                                                <i class="fa fa-refresh fa-spin fa-fw" ng-show="admin.forgive.processing"></i>Issue Language Punish
+                                            </button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="number" style="width: 60px;"
+                                               class="form-control input-sm pull-left" min="1"
+                                               ng-model="admin.punish.points"
+                                               ng-disabled="admin.forgive.processing">
+
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" disabled class="form-control" style="border-radius: 0" placeholder="Reason to language forgive the player." ng-model="admin.punish.message" ng-disabled="admin.forgive.processing">
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-success btn-flat" style="" ng-click="issuePunish()" ng-disabled="admin.forgive.processing">
+                                                <i class="fa fa-refresh fa-spin fa-fw" ng-show="admin.forgive.processing"></i>Issue Language Forgive
+                                            </button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                @if (!is_null($mutes) && count($mutes) != 0)
+                                    <h4 style="font-size: 12pt">{{ trans('player.profile.mutes.title-history') }}</h4>
+                                    <table class="table table-striped table-condensed" style="margin-bottom: 2.5em">
+                                        <thead>
+                                            <th>{{ trans('player.profile.mutes.table.col1') }}</th>
+                                            <th>{{ trans('player.profile.mutes.table.col2') }}</th>
+                                            <th>{{ trans('player.profile.mutes.table.col3') }}</th>
+                                            <th>{{ trans('player.profile.mutes.table.col4') }}</th>
+                                            <th>{{ trans('player.profile.mutes.table.col5') }}</th>
+                                            <th style="width: 25%">{{ trans('player.profile.mutes.table.col6') }}</th>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach($mutes as $mute)
+                                                <tr>
+                                                    <td>
+                                                        <span ng-bind="moment('{{ $mute->record_time }}').fromNow()" tooltip="{{ Macros::moment($mute->record_time) }}"></span>
+                                                    </td>
+                                                    <td>
+                                                        @if(in_array($mute->command_type, [11, 150]))
+                                                            <span>-</span>
+                                                        @else
+                                                            <span ng-bind="momentDuration({{ $mute->command_numeric }}, 'minutes')"></span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $mute->source_name }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="servers/live#id-{{ $mute->server->ServerID }}" target="_blank" tooltip="{{ $mute->server->ServerName }}">
+                                                            {{ str_limit($mute->server->ServerName, 30) }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        @if($mute->command_type === 11)
+                                                            <label class="label label-info">{{ trans('player.profile.mutes.type.round.short') }}</label>
+                                                        @elseif($mute->command_type === 150)
+                                                            <label class="label label-default">Unmute</label>
+                                                        @elseif($mute->command_numeric === 10518984)
+                                                            <label class="label label-danger">{{ trans('player.profile.mutes.type.permanent.short') }}</label>
+                                                        @else
+                                                            <label class="label label-warning">{{ trans('player.profile.mutes.type.temporary.short') }}</label>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $mute->record_message }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <div class="alert alert-success">
+                                        <i class="fa fa-check"></i> {{ trans('player.profile.mutes.none') }}
+                                    </div>
+                                @endif
+
+                                <div style="display: flex; gap: 1em">
+                                    @if(!$groups->contains('group_key', 'persistent_mute') && $bfacp->isLoggedIn && Auth::user()->ability(null, 'admin.adkats.mutes.create'))
+                                        {{ link_to_route('admin.adkats.mutes.create', 'Create Mute', ['player_id' => $player->PlayerID], ['class' => 'btn bg-green', 'target' => '_self']) }}
+                                    @endif
+                                    {!! Former::open()->method('DELETE')->route('admin.adkats.mutes.destroy', [$player->PlayerID])->id('unmute-form') !!}
+                                    <button type="submit" class="btn bg-maroon">
+                                        <i class="fa fa-eraser"></i> <span>{{ trans('adkats.mutes.edit.buttons.submit.text3') }}</span>
+                                    </button>
+                                    {!! Former::close() !!}
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="notes">
@@ -836,6 +955,47 @@
                         break;
                 }
             });
+        });
+
+        $('#unmute-form').submit(function (e) {
+            e.preventDefault();
+
+            var unmute = prompt("<?php echo trans('adkats.mutes.prompts.unmute.reason'); ?>", "Unmuting <?php echo $player->SoldierName; ?>");
+            var btn = $(this).find('button');
+
+            var csrf = $("input[name='_token']").val();
+
+            if (unmute && unmute.includes('Unmuting')) {
+                alert("Please provide more descriptive reason for unmute.");
+                return;
+            }
+
+            if (unmute !== null) {
+                btn.find("i").removeClass('fa-eraser').addClass('fa-spinner fa-pulse');
+                btn.attr('disabled', true);
+                btn.find('span').text("<?php echo trans('adkats.mutes.edit.buttons.submit.text2'); ?>")
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: {
+                        message: unmute,
+                        _token: csrf,
+                        _method: 'DELETE'
+                    }
+                })
+                    .done(function () {
+                        location.reload();
+                    })
+                    .fail(function () {
+                        alert("<?php echo trans('adkats.mutes.prompts.unmute.request_failed'); ?>");
+                    })
+                    .always(function () {
+                        btn.find("i").removeClass('fa-spinner fa-pulse').addClass('fa-eraser');
+                        btn.attr('disabled', false);
+                        btn.find('span').text("<?php echo trans('adkats.mutes.edit.buttons.submit.text3'); ?>");
+                    });
+            }
         });
     </script>
 @stop

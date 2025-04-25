@@ -304,6 +304,56 @@
 
             <div class="col-xs-12 col-lg-6">
                 <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ trans('dashboard.mutes.title') }}</h3>
+
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" ng-click="latestMutes()" tooltip="Refresh" id="latest-mute-refresh-btn">
+                                <i class="fa fa-refresh"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" ng-include="'js/templates/latestmutes.html?v=111111123342'" onload="latestMutes()"></div>
+
+                    <div class="overlay" ng-if="!loaded.mutes">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mutes -->
+
+            @if(Config::get('bfacp.metabans.enabled'))
+                <div class="col-xs-12 col-md-5 col-lg-6" ng-include="'js/templates/metabans.html'" onload="metabans()"></div>
+            @endif
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-6">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            {{ trans('dashboard.admin_actions.title') }}
+                        </h3>
+
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" ng-click="latestAdminActions()" tooltip="Refresh" id="latest-action-refresh-btn">
+                                <i class="fa fa-refresh"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" ng-include="'js/templates/latestadminactions.html?v=111111123342'" onload="latestAdminActions()"></div>
+
+                    <!-- Add boxes for the actions and add links to players -->
+
+                    <div class="overlay" ng-if="!loaded.actions">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-lg-6">
+                <div class="box box-info">
                     <div class="box-header">
                         <h3 class="box-title">
                             {{ trans('dashboard.latest_battlereports') }}
@@ -322,10 +372,6 @@
                     </div>
                 </div>
             </div>
-
-            @if(Config::get('bfacp.metabans.enabled'))
-                <div class="col-xs-12 col-md-5 col-lg-6" ng-include="'js/templates/metabans.html'" onload="metabans()"></div>
-            @endif
         </div>
     </div>
 @stop

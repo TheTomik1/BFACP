@@ -117,6 +117,33 @@ return [
                 ],
             ],
         ],
+        'mutes' => [
+            'type'     => [
+                'temporary' => [
+                    'long'  => 'Temporary',
+                    'short' => 'Temp',
+                ],
+                'permanent' => [
+                    'long'  => 'Permanent',
+                    'short' => 'Perm',
+                ],
+                'round' => [
+                    'long'  => 'Round',
+                    'short' => 'Round',
+                ],
+            ],
+            'title'   => 'Mutes',
+            'title-history' => 'Mutes History',
+            'none'    => 'No mutes on file',
+            'table'   => [
+                'col1' => 'Issued',
+                'col2' => 'Duration',
+                'col3' => 'Admin',
+                'col4' => 'Server',
+                'col5' => 'Type',
+                'col6' => 'Reason',
+            ],
+        ],
         /**
          * Stats
          */

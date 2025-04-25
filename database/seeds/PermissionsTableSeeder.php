@@ -31,6 +31,18 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at'   => $now,
             ],
             [
+                'name'         => 'admin.adkats.mutes.create',
+                'display_name' => 'Create New Mutes',
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ],
+            [
+                'name'         => 'admin.adkats.mutes.edit',
+                'display_name' => 'Edit Mutes',
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ],
+            [
                 'name'         => 'admin.adkats.reports.edit',
                 'display_name' => 'Edit Admin Reports',
                 'created_at'   => $now,

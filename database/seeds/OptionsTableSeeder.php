@@ -103,6 +103,12 @@ class OptionsTableSeeder extends Seeder
                 'option_title'      => 'Emblems Storage Path',
                 'option_value'      => null,
                 'option_description' => 'Relative path to the folder which your web server uses to store emblems. When displaying emblems this value gets replaced by the one above.',
+            ],
+            [
+                'option_key'        => 'site.bf4db_key',
+                'option_title'      => 'BF4DB API Key',
+                'option_value'      => null,
+                'option_description' => 'BF4DB API key to use for checking player ban statuses.',
             ]
         ];
 

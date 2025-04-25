@@ -49,6 +49,34 @@ return [
             ],
         ],
     ],
+    'mutes' => [
+        'edit'    => [
+            'fields'  => [
+                'field1'  => 'Player',
+                'field2'  => 'Admin',
+                'field3'  => 'Reason',
+                'field4'  => 'Server',
+                'field5'  => 'Date &amp; Time',
+                'field6'  => 'Status',
+                'field7'  => 'Mute Type',
+            ],
+            'buttons' => [
+                'submit'  => [
+                    'text1' => 'Save Changes',
+                    'text2' => 'Please wait...',
+                    'text3' => 'Unmute',
+                ],
+                'cancel'  => 'Cancel',
+                'profile' => 'Return to Player Profile',
+            ],
+        ],
+        'prompts' => [
+            'unmute' => [
+                'request_failed' => 'Request failed. Please try again later.',
+                'reason'         => 'Enter unmute reason',
+            ],
+        ],
+    ],
     'special_players' => [
         'listing' => [
             'table' => [

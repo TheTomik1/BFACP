@@ -35,7 +35,9 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
             yesterday: 0,
             average: 0
         },
-        online_admins: []
+        online_admins: [],
+        admin_actions: [],
+        mutes: [],
     };
 
     $scope.opts = {
@@ -46,7 +48,9 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
 
     $scope.loaded = {
         bans: false,
-        battlereports: false
+        battlereports: false,
+        actions: false,
+        mutes: false,
     };
 
     $scope.$watch('results.population.online', function(newValue, oldValue) {
@@ -234,6 +238,46 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
         });
     };
 
+    $scope.latestAdminActions = function() {
+        if ($scope.loaded.actions) {
+            $("#latest-ban-refresh-btn").addClass('fa-spin');
+            $scope.loaded.actions = false;
+        }
+
+        $http.get('api/helpers/latestadminactions').success(function(data) {
+            if(data.data.length > 0) {
+                $scope.results.admin_actions = data.data;
+            } else {
+                $scope.results.admin_actions = [];
+            }
+
+            $scope.loaded.actions = true;
+            $("#latest-ban-refresh-btn").removeClass('fa-spin');
+        }).error(function() {
+            $scope.latestAdminActions();
+        });
+    };
+
+    $scope.latestMutes = function () {
+        if ($scope.loaded.mutes) {
+            $('#latest-mute-refresh-btn').addClass('fa-spin')
+            $scope.loaded.mutes = false;
+        }
+
+        $http.get('api/helpers/latestmutes').success(function(data) {
+            if(data.data.length > 0) {
+                $scope.results.mutes = data.data;
+            } else {
+                $scope.results.mutes = [];
+            }
+
+            $scope.loaded.mutes = true;
+            $("#latest-mute-refresh-btn").removeClass('fa-spin');
+        }).error(function() {
+            $scope.latestMutes();
+        });
+    }
+
     // Re-fetch the population every 30 seconds.
     $interval($scope.population, 30 * 1000);
 
@@ -245,6 +289,12 @@ angular.module('bfacp').controller('DashboardController', ['$scope', '$http', '$
 
     // Re-fetch latest battlereports every minute.
     $interval($scope.latestBattlereports, 60 * 1000);
+
+    // Re-fetch latest admin actions every minute.
+    $interval($scope.latestAdminActions, 60 * 1000);
+
+    // Re-fetch latest mutes every minute.
+    $interval($scope.latestMutes, 60 * 1000);
 
     $scope.banStats();
 }]);

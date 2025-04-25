@@ -42,6 +42,12 @@ return [
             'col4' => 'Expires',
         ],
     ],
+    'mutes'                          => [
+        'title'   => 'Latest Mutes',
+    ],
+    'admin_actions'                          => [
+        'title'   => 'Latest Admin Actions',
+    ],
     'players_seen_country_past_day' => [
         'title' => 'Players Seen by Country (24h)',
         'table' => [

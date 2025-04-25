@@ -8,6 +8,7 @@ use BFACP\Facades\Main as MainHelper;
 use BFACP\Repositories\GeoRepository;
 use Exception;
 use Illuminate\Support\Facades\Cache as Cache;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class Player.
@@ -286,14 +287,14 @@ class Player extends Elegant
 
         // Battlelog URL
         if (is_null($this->battlelog)) {
-            $links['battlelog'] = sprintf('http://battlelog.battlefield.com/%s/user/%s', strtolower($game),
+            $links['battlelog'] = sprintf('https://battlelog.battlefield.com/%s/user/%s', strtolower($game),
                 $this->SoldierName);
         } else {
             if ($game == 'BFH') {
-                $links['battlelog'] = sprintf('http://battlelog.battlefield.com/%s/agent/%s/stats/%u/pc/',
+                $links['battlelog'] = sprintf('https://battlelog.battlefield.com/%s/agent/%s/stats/%u/pc/',
                     strtolower($game), $this->SoldierName, $this->battlelog->persona_id);
             } else {
-                $links['battlelog'] = sprintf('http://battlelog.battlefield.com/%s/soldier/%s/stats/%u/pc/',
+                $links['battlelog'] = sprintf('https://battlelog.battlefield.com/%s/soldier/%s/stats/%u/pc/',
                     strtolower($game), $this->SoldierName, $this->battlelog->persona_id);
             }
         }

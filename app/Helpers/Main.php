@@ -981,11 +981,11 @@ class Main
     {
         $groups = Cache::remember('admin.adkats.special.groups', 60 * 24, function () {
             try {
-                $request = $this->guzzle->get('https://raw.githubusercontent.com/AdKats/AdKats/master/adkatsspecialgroups.json');
+                $request = $this->guzzle->get('https://raw.githubusercontent.com/TheTomik1/E4GLAdKats/refs/heads/main/adkatsspecialgroups.json');
                 $response = json_decode($request->getBody(), true);
                 $data = $response['SpecialGroups'];
             } catch (RequestException $e) {
-                $request = $this->guzzle->get('http://api.gamerethos.net/adkats/fetch/specialgroups');
+                $request = $this->guzzle->get('https://raw.githubusercontent.com/AdKats/AdKats/master/adkatsspecialgroups.json');
                 $response = json_decode($request->getBody(), true);
                 $data = $response['SpecialGroups'];
             }
@@ -1118,6 +1118,8 @@ class Main
                 'tbanweek'   => 'Temp-Ban 1 Week',
                 'tban2weeks' => 'Temp-Ban 2 Weeks',
                 'tbanmonth'  => 'Temp-Ban 1 Month',
+                "tban2months"  => 'Temp-Ban 2 Months',
+                "tban6months"  => 'Temp-Ban 6 Months',
                 'ban'        => 'Perma-Ban',
             ];
 

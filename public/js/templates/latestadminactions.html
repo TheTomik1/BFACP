@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="table no-margin">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Action</th>
+                <th>Admin</th>
+                <th>Issued</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(key, action) in results.admin_actions">
+            <td>
+                <span class="label bg-blue">BF4</span>
+                <a ng-if="action.target_id !== null" tooltip="{{ action.record_message }}" ng-href="/players/{{ action.target_id }}/{{ action.target_name }}" ng-bind="action.target_name" target="_self"></a>
+            </td>
+            <td>
+                 <span class="label" ng-class="{
+                    'bg-red-gradient': action.command_name === 'Kill Player',
+                    'bg-orange': action.command_name === 'Kick Player',
+                    'bg-yellow': action.command_name === 'Temp-Ban Player' || action.command_name === 'Warn Player',
+                    'bg-red': action.command_name === 'Permaban Player',
+                    'bg-purple': action.command_name === 'Punish Player',
+                    'bg-green': action.command_name === 'Forgive Player' || action.command_name === 'Unban Player',
+                    'bg-light-blue': action.command_name === 'Mute Player',
+                    'bg-blue': action.command_name === 'Persistent Mute Player',
+                    'bg-green': action.command_name === 'Remove Persistent Mute'
+                }">
+                    {{ action.command_name }}
+            </span>
+            </td>
+
+            <td class="hidden-xs">
+                <span ng-if="action.source_id === null" ng-bind="action.source_name"></span>
+                <a ng-if="action.source_id !== null" ng-href="/players/{{ action.source_id }}/{{ action.source_name }}" ng-bind="action.source_name" target="_self"></a>
+            </td>
+            <td><span ng-bind="moment(action.record_time).fromNow()" tooltip="{{ moment(action.record_time).format('LLL') }}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

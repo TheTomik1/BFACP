@@ -18,6 +18,8 @@ if (PHP_SAPI !== 'cli') {
             Route::get('online/admins', 'HelpersController@onlineAdmins');
             Route::get('online/watchlist', 'HelpersController@onlineWatchlistPlayers');
             Route::get('serverbattlereports', 'HelpersController@getAllServersBattleReports');
+            Route::get('latestadminactions', 'HelpersController@getLatestAdminActions');
+            Route::get('latestmutes', 'HelpersController@getLatestMutes');
             Route::get('ip/{addy}', 'HelpersController@iplookup');
             Route::get('squads', 'HelpersController@getSquads');
         });
@@ -237,6 +239,13 @@ Route::group(['middleware' => 'web'], function () {
                     'store'   => 'admin.adkats.bans.store',
                     'create'  => 'admin.adkats.bans.create',
                 ],
+            ]);
+
+            Route::resource('mutes', 'MutesController', [
+                'names' => [
+                    'create'  => 'admin.adkats.mutes.create',
+                    'destroy' => 'admin.adkats.mutes.destroy',
+                ]
             ]);
 
             // Adkats Users

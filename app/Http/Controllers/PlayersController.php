@@ -21,6 +21,18 @@ use Illuminate\Support\Facades\File;
 class PlayersController extends Controller
 {
     /**
+     * GuzzleHttp\Client.
+     */
+    protected $guzzle;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->guzzle = app('Guzzle');
+    }
+
+    /**
      * @var PlayerRepository
      */
     private $repository;
@@ -36,6 +48,33 @@ class PlayersController extends Controller
 
         return view('player.listing', compact('page_title'));
     }
+
+    public function bf4db($personaID)
+    {
+        $bf4db_key = Config::get('bfacp.site.bf4db_key');
+        if (!$bf4db_key) {
+            return null;
+        }
+
+        try {
+            $url = "https://bf4db.com/api/player/{$personaID}";
+
+            $request = $this->guzzle->get($url, [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ],
+                'query' => [
+                    'api_token' => $bf4db_key,
+                ],
+            ]);
+
+            return json_decode($request->getBody(), true);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 
     /**
      * Shows the player profile.
@@ -114,12 +153,16 @@ class PlayersController extends Controller
 
         $servers = Server::active()->with('stats')->get();
 
+        $mutes = Record::where('target_id', $id)->whereIn('command_type', [11, 149, 150])->orderBy('record_time', 'desc')->get();
+
+        $bf4db = $this->bf4db($player->battlelog->persona_id);
+
         $current_emblem = Emblem::where('playername', $player->SoldierName)->orderBy('created_at', 'desc')->first();
 
         $configEmblemsBaseUrl = Config::get('bfacp.site.emblems.baseurl');
         $configEmblemsPath = Config::get('bfacp.site.emblems.path');
 
-        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'groups', 'servers', 'current_emblem', 'configEmblemsBaseUrl', 'configEmblemsPath'));
+        return view('player.profile', compact('player', 'page_title', 'charts', 'isCached', 'mutes', 'groups', 'bf4db', 'servers', 'current_emblem', 'configEmblemsBaseUrl', 'configEmblemsPath'));
     }
 
     /**

@@ -77,10 +77,53 @@ class HelpersController extends Controller
             ->join('bfacp_settings_servers','bfacp_battlereports.guid','=','bfacp_settings_servers.battlelog_guid')
             ->join('tbl_server','ServerID','=','bfacp_settings_servers.server_id')
             ->orderBy('bfacp_battlereports.datetime','desc')
-            ->limit(15)
+            ->limit(30)
             ->get();
 
         return MainHelper::response($latest_battlereports, null, null, null, false, true);
+    }
+
+    public function getLatestAdminActions()
+    {
+        $latest_admin_actions = DB::table('adkats_records_main')
+            ->join('adkats_commands', 'adkats_commands.command_id', '=', 'adkats_records_main.command_type')
+            ->select(
+                'adkats_commands.command_name',
+                'adkats_records_main.target_name',
+                'adkats_records_main.target_id',
+                'adkats_records_main.source_name',
+                'adkats_records_main.source_id',
+                'adkats_records_main.record_message',
+                'adkats_records_main.record_time'
+            )
+            ->whereIn('adkats_records_main.command_type', [92, 3, 6, 7, 8, 9, 10, 37, 11, 149, 150])
+            ->whereNotIn('adkats_records_main.source_name', ['AutoAdmin', 'PingEnforcer', 'InfractionManager', 'PlayerMuteSystem', 'PingEnforcer', 'BanEnforcer', 'BF4DB'])
+            ->orderBy('adkats_records_main.record_time', 'desc')
+            ->limit(30)
+            ->get();
+
+        return MainHelper::response($latest_admin_actions, null, null, null, false, true);
+    }
+
+    public function getLatestMutes() {
+        $mutes = DB::table('adkats_records_main')
+            ->join('adkats_commands', 'adkats_commands.command_id', '=', 'adkats_records_main.command_type')
+            ->select(
+                'adkats_commands.command_name',
+                'adkats_records_main.target_name',
+                'adkats_records_main.command_numeric',
+                'adkats_records_main.target_id',
+                'adkats_records_main.source_name',
+                'adkats_records_main.source_id',
+                'adkats_records_main.record_message',
+                'adkats_records_main.record_time'
+            )
+            ->whereIn('adkats_records_main.command_type', [11, 149])
+            ->orderBy('adkats_records_main.record_time', 'desc')
+            ->limit(30)
+            ->get();
+
+        return MainHelper::response($mutes, null, null, null, false, true);
     }
 
     /**

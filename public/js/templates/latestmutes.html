@@ -1,0 +1,37 @@
+<div class="table-responsive">
+    <table class="table no-margin">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Admin</th>
+                <th>Issued</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="(key, mute) in results.mutes">
+                <td>
+                    <span class="label bg-blue">BF4</span>
+                    <a ng-if="mute.target_id !== null" tooltip="{{ mute.record_message }}" ng-href="/players/{{ mute.target_id }}/{{ mute.target_name }}" ng-bind="mute.target_name" target="_self"></a>
+                </td>
+                <td class="hidden-xs">
+                    <span ng-if="mute.source_id === null" ng-bind="mute.source_name"></span>
+                    <a ng-if="mute.source_id !== null" ng-href="/players/{{ mute.source_id }}/{{ mute.source_name }}" ng-bind="mute.source_name" target="_self"></a>
+                </td>
+                <td><span ng-bind="moment(mute.record_time).fromNow()" tooltip="{{ moment(mute.record_time).format('LLL') }}"></span></td>
+                <td>
+                    <span ng-if="mute.command_name === 'Persistent Mute Player'"
+                          ng-class="{
+                              'label bg-red': mute.command_numeric === 10518984,
+                              'label bg-purple': mute.command_numeric !== 10518984
+                          }">
+                        <span ng-if="mute.command_numeric === 10518984">Permanent Mute</span>
+                        <span ng-if="mute.command_numeric !== 10518984">Temporary Mute</span>
+                    </span>
+                    <span ng-if="mute.command_name === 'Mute Player'" class="label bg-olive">Round Mute</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

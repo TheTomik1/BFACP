@@ -79,6 +79,9 @@ return [
     ],
     'special_players' => [
         'listing' => [
+            'buttons' => [
+                'create' => 'Add Special Player',
+            ],
             'table' => [
                 'col1' => 'ID',
                 'col2' => 'Game',
@@ -86,6 +89,7 @@ return [
                 'col4' => 'Group',
                 'col5' => 'Created',
                 'col6' => 'Expires',
+                'col7' => 'Actions'
             ],
         ],
     ],

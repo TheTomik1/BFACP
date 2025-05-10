@@ -4,6 +4,7 @@
     {!! Former::open()->route('admin.site.users.update', [$user->id])->rules([
         'username' => 'required|alpha_num|min:4',
         'email'    => 'required|email',
+        'discord_id'    => 'required',
         'role'     => 'required'
     ]) !!}
 
@@ -17,6 +18,7 @@
                 <div class="box-body">
                     {!! Former::text('username')->label(trans('site.admin.users.edit.inputs.username.label')) !!}
                     {!! Former::email('email')->label(trans('site.admin.users.edit.inputs.email.label')) !!}
+                    {!! Former::text('discord_id')->label(trans('site.admin.users.edit.inputs.discord_id.label')) !!}
                     {!! Former::select('role')->options($roles, $user->roles[0]->id)->label(trans('site.admin.users.edit.inputs.role.label')) !!}
 
                     {!! Former::select('language')->label(trans('site.admin.users.edit.inputs.lang.label'))->options(Config::get('bfacp.site.languages'))->value($user->setting->lang) !!}

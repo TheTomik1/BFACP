@@ -272,12 +272,16 @@ Route::group(['middleware' => 'web'], function () {
                 ],
             ]);
 
+            // Special Players Roles
             Route::resource('special_players', 'SpecialPlayersController', [
                 'names' => [
                     'index'  => 'admin.adkats.special_players.index',
-                    'update' => 'admin.adkats.special_players.update',
+                    'edit'    => 'admin.adkats.special_players.edit',
+                    'store'   => 'admin.adkats.special_players.store',
+                    'update'  => 'admin.adkats.special_players.update',
+                    'create'  => 'admin.adkats.special_players.create',
+                    'destroy' => 'admin.adkats.special_players.destroy',
                 ],
-                'only'  => ['index', 'update'],
             ]);
 
             Route::resource('reports', 'ReportsController', [

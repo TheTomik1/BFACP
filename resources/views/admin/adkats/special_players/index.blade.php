@@ -3,7 +3,17 @@
 @section('content')
     <div class="row">
         <div class="col-xs-12">
+            <div class="alert alert-warning">
+                <i class="fa fa-warning"></i> One player can have multiple special players assigned! Multiple table rows are fine as long as groups are unique.
+            </div>
+
             <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        {!! link_to_route('admin.adkats.special_players.create', 'Create New Special Player', [], ['class' => 'btn bg-green pull-right', 'target' => '_self']) !!}
+                    </div>
+                </div>
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table table-condensed table-striped">
@@ -14,6 +24,7 @@
                             <th width="500px">{{ trans('adkats.special_players.listing.table.col4') }}</th>
                             <th>{{ trans('adkats.special_players.listing.table.col5') }}</th>
                             <th>{{ trans('adkats.special_players.listing.table.col6') }}</th>
+                            <th>{{ trans('adkats.special_players.listing.table.col7') }}</th>
                             </thead>
 
                             <tbody>
@@ -34,12 +45,32 @@
                                             {!! link_to_route('player.show', $player->player->SoldierName, [$player->player->PlayerID, $player->player->SoldierName], ['target' => '_self']) !!}
                                         @endif
                                     </td>
-                                    <td>{!! Former::select('group')->fromQuery($groups, 'group_name', 'group_key')->value($player->player_group)->data_special_id($player->specialplayer_id) !!}</td>
+                                    <td>
+                                        @php
+                                            $groupKey = $player->player_group;
+                                            $groupName = '';
+
+                                            foreach ($groups as $group) {
+                                                if ($group['group_key'] === $groupKey) {
+                                                    $groupName = $group['group_name'];
+                                                    break;
+                                                }
+                                            }
+                                        @endphp
+
+                                        {{ $groupName }}
+                                    </td>
                                     <td>
                                         <span ng-bind="moment('{{ $player->effective_stamp }}').fromNow()" tooltip="<?php echo '{{';?> moment('<?php echo $player->effective_stamp;?>').format('lll') <?php echo '}}';?>"></span>
                                     </td>
                                     <td>
-                                        <span ng-bind="moment('{{ $player->expiration_stamp }}').fromNow()" tooltip="<?php echo '{{';?> moment('<?php echo $player->expiration_stamp;?>').format('lll') <?php echo '}}';?>"></span>
+                                        <span ng-if="moment('{{ $player->expiration_stamp }}').isAfter(moment().add(10, 'years'))" class="label bg-red">
+                                            Permanent
+                                        </span>
+                                        <span ng-if="!moment('{{ $player->expiration_stamp }}').isAfter(moment().add(10, 'years'))" ng-bind="moment('{{ $player->expiration_stamp }}').fromNow()" tooltip="<?php echo '{{';?> moment('<?php echo $player->expiration_stamp;?>').format('lll') <?php echo '}}';?>"></span>
+                                    </td>
+                                    <td>
+                                        {!! link_to_route('admin.adkats.special_players.edit', 'Manage', [$player->specialplayer_id], ['class' => 'btn btn-xs bg-blue', 'target' => '_self']) !!}
                                     </td>
                                 </tr>
                             @empty

@@ -201,7 +201,10 @@ return [
                     ],
                     'items' => [
                         'edit' => [
-                            'title' => 'Editing Special Player #:id',
+                            'title' => 'Editing Special Player Group #:id',
+                        ],
+                        'create' => [
+                            'title' => 'Create New Special Role Player',
                         ],
                     ],
                 ],

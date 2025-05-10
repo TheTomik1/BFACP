@@ -28,6 +28,7 @@ return [
                 'inputs'  => [
                     'username'       => ['label' => 'Username'],
                     'email'          => ['label' => 'Email'],
+                    'discord_id'     => ['label' => 'Discord ID'],
                     'role'           => ['label' => 'Role'],
                     'account_status' => ['label' => 'Status'],
                     'lang'           => ['label' => 'Language'],
@@ -66,6 +67,21 @@ return [
                     'save'   => 'Create Role',
                     'cancel' => 'Cancel',
                     'delete' => 'Delete Role',
+                ],
+            ],
+        ],
+        'special_players'   => [
+            'edit'   => [
+                'buttons' => [
+                    'save'   => 'Save Changes',
+                    'cancel' => 'Cancel',
+                    'delete' => 'Remove group',
+                ],
+            ],
+            'create' => [
+                'buttons' => [
+                    'save'   => 'Create Special Player',
+                    'cancel' => 'Cancel',
                 ],
             ],
         ],

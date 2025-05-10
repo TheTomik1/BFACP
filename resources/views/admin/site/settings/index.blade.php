@@ -32,6 +32,11 @@
                         @elseif($setting->option_key == 'site.motd')
                             {!! Former::textarea(str_replace('.', '-', $setting->option_key))->value($setting->option_value)
                                 ->label($setting->option_title)->help($setting->option_description)->rows(5)->cols(50) !!}
+                        @elseif($setting->option_key == 'site.bf4db_key')
+                            {!! Former::text($setting->option_key)
+                                ->label($setting->option_title)
+                                ->help($setting->option_description)
+                                ->forceValue('') !!}
                         @else
                             {!! Former::text(str_replace('.', '-', $setting->option_key))->value($setting->option_value)->label($setting->option_title)->help($setting->option_description) !!}
                         @endif

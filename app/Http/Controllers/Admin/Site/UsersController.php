@@ -152,6 +152,7 @@ class UsersController extends Controller
 
             $username = trim($this->request->get('username', null));
             $email = trim($this->request->get('email', null));
+            $discordId = trim($this->request->get('discord_id', null));
             $roleId = trim($this->request->get('role', null));
             $lang = trim($this->request->get('language', null));
             $status = (bool) trim($this->request->get('account_status', false));
@@ -160,6 +161,7 @@ class UsersController extends Controller
             $v = Validator::make($this->request->all(), [
                 'username'      => 'required|alpha_dash|min:4|unique:bfacp_users,username,'.$id,
                 'email'         => 'required|email|unique:bfacp_users,email,'.$id,
+                'discord_id'    => 'required|string',
                 'language'      => 'required|in:'.implode(',', array_keys($this->config->get('bfacp.site.languages'))),
                 'generate_pass' => 'boolean',
             ]);
@@ -203,6 +205,12 @@ class UsersController extends Controller
             if ($email != $user->email) {
                 $this->log->info(sprintf('%s changed %s email to %s.', $this->user->username, $user->username, $email));
                 $user->email = $email;
+            }
+
+            // Update DiscordID
+            if ($discordId != $user->discord_id) {
+                $this->log->info(sprintf('%s changed %s Discord ID to %s.', $this->user->username, $user->username, $discordId));
+                $user->discord_id = $discordId;
             }
 
             if ($this->request->has('generate_pass')) {
